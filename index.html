@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuộc thi Em Yêu Biển Đảo Quê Hương</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playball&family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root { --primary: #0091ea; --yellow: #fdd835; --text: #333; }
+        body { font-family: 'Roboto', sans-serif; margin: 0; padding: 0; background: #fff; color: var(--text); }
+        
+        /* HEADER */
+        header { padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; background: #fff; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .logo-area { display: flex; align-items: center; gap: 15px; cursor: pointer; }
+        .logo-area img { height: 50px; }
+        .logo-text h1 { margin: 0; color: #1565c0; font-size: 1.1rem; font-weight: 900; text-transform: uppercase; }
+        .logo-text span { color: #0288d1; font-size: 0.85rem; }
+        .nav-link { margin-right: 20px; text-decoration: none; color: #1565c0; font-weight: 600; cursor: pointer; }
+        .btn-header { background: var(--yellow); border: none; padding: 8px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; box-shadow: 0 3px #fbc02d; }
+
+        /* HERO */
+        #hero {
+            background-color: #0288d1;
+            background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.05) 0%, transparent 50%), linear-gradient(135deg, #0288d1 0%, #03a9f4 100%);
+            background-size: cover; padding: 60px 20px 120px; text-align: center; color: white; position: relative; overflow: hidden;
+        }
+        .year-pill { display: inline-block; border: 1px solid rgba(255,255,255,0.5); padding: 6px 20px; border-radius: 20px; font-size: 0.9rem; margin-bottom: 20px; background: rgba(0,0,0,0.1); }
+        .hero-title-1 { font-size: 3.5rem; font-weight: 900; margin: 0; line-height: 1; }
+        .hero-title-2 { font-size: 3.5rem; font-weight: 900; margin: 0 0 20px; color: var(--yellow); text-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .hero-desc { max-width: 700px; margin: 0 auto 30px; font-size: 1.1rem; opacity: 0.9; line-height: 1.6; }
+        .btn-big { background: var(--yellow); padding: 15px 40px; font-size: 1.2rem; font-weight: 800; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 4px #f9a825; transition: 0.2s; }
+        .btn-big:hover { transform: translateY(-3px); }
+        .wave-bottom { position: absolute; bottom: -1px; left: 0; width: 100%; line-height: 0; }
+        .wave-bottom svg { width: 100%; height: 80px; fill: #ffffff; }
+
+        /* CARDS */
+        .cards-section { padding: 0 20px; margin-top: -50px; position: relative; z-index: 2; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+        .info-card { background: #fff; width: 300px; padding: 30px 20px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center; border: 1px solid #f0f0f0; }
+        .icon-circle { width: 70px; height: 70px; background: #e3f2fd; color: #1565c0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 15px; }
+        .icon-circle.pink { background: #fce4ec; color: #c2185b; }
+        .icon-circle.yellow { background: #fffde7; color: #fbc02d; }
+        .card-num { font-size: 2rem; font-weight: 900; color: #333; margin-bottom: 5px; }
+
+        /* TABLES */
+        .stats-container { max-width: 1100px; margin: 50px auto; padding: 20px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .stat-box { background: #fff; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); padding: 20px; border: 1px solid #eee; }
+        .stat-title { text-align: center; color: var(--primary); font-weight: bold; text-transform: uppercase; margin-bottom: 15px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
+        .rank-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .rank-table td { padding: 10px; border-bottom: 1px solid #f5f5f5; }
+        .rank-badge { background: #e3f2fd; color: var(--primary); padding: 2px 8px; border-radius: 10px; font-size: 0.8rem; font-weight: bold; }
+
+        /* OVERLAYS & UTILS */
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; justify-content: center; align-items: center; }
+        .popup { background: #fff; padding: 40px; width: 90%; max-width: 500px; border-radius: 15px; position: relative; animation: slideIn 0.3s; }
+        @keyframes slideIn { from {transform: translateY(-20px); opacity: 0;} to {transform: translateY(0); opacity: 1;} }
+        .close-btn { position: absolute; top: 15px; right: 15px; cursor: pointer; font-size: 1.5rem; color: #999; }
+        .form-control { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        .btn-full { width: 100%; background: var(--primary); color: white; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        
+        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 2000; display: flex; justify-content: center; align-items: center; }
+        
+        #quiz-view, #result-view { display: none; max-width: 800px; margin: 40px auto; padding: 30px; background: #fff; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+        .option-btn { display: block; width: 100%; text-align: left; padding: 15px; margin-bottom: 10px; border: 2px solid #eee; border-radius: 10px; cursor: pointer; transition: 0.2s; }
+        .option-btn:hover { background: #e1f5fe; border-color: var(--primary); }
+        .option-btn.selected { background: var(--primary); color: white; border-color: var(--primary); }
+        
+        #cert-final { width: 100%; border: 5px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.2); margin-top: 20px; display: none; }
+        canvas { display: none; }
+
+        @media (max-width: 600px) { .hero-title-1, .hero-title-2 { font-size: 2.5rem; } .nav-link { display: none; } }
+    </style>
+</head>
+<body>
+
+    <div id="loader"><i class="fas fa-spinner fa-spin fa-3x" style="color:var(--primary)"></i></div>
+
+    <header>
+        <div class="logo-area" onclick="resetApp()">
+            <img id="logo-img" src="" alt="Logo">
+            <div class="logo-text"><h1>EM YÊU BIỂN ĐẢO</h1><span>QUÊ HƯƠNG VIỆT NAM</span></div>
+        </div>
+        <div>
+            <span class="nav-link" onclick="resetApp()">TRANG CHỦ</span>
+            <span class="nav-link" onclick="document.getElementById('intro-overlay').style.display='flex'">GIỚI THIỆU</span>
+            <button class="btn-header" onclick="startTrial()">THI THỬ NGAY</button>
+        </div>
+    </header>
+
+    <div id="landing-page">
+        <div id="hero">
+            <div class="year-pill">Cuộc thi trực tuyến năm 2024</div>
+            <h1 class="hero-title-1">EM YÊU</h1>
+            <h2 class="hero-title-2">BIỂN ĐẢO QUÊ HƯƠNG</h2>
+            <p class="hero-desc">Cùng tìm hiểu về lịch sử, địa lý và chủ quyền biển đảo Việt Nam.</p>
+            <button class="btn-big" onclick="document.getElementById('reg-overlay').style.display='flex'">Đăng Ký Dự Thi</button>
+            <div class="wave-bottom"><svg viewBox="0 0 1440 320"><path fill="#ffffff" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,261.3C960,256,1056,224,1152,197.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg></div>
+        </div>
+
+        <div class="cards-section">
+            <div class="info-card"><div class="icon-circle"><i class="fas fa-users"></i></div><div class="card-num" id="s-visits">...</div><div>Lượt truy cập</div></div>
+            <div class="info-card"><div class="icon-circle pink"><i class="fas fa-school"></i></div><div class="card-num" id="s-schools">...</div><div>Trường tham gia</div></div>
+            <div class="info-card"><div class="icon-circle yellow"><i class="fas fa-trophy"></i></div><div class="card-num" id="s-exams">...</div><div>Lượt dự thi</div></div>
+        </div>
+
+        <div class="stats-container">
+            <h2 style="text-align:center; margin-bottom:30px; color:#333">BẢNG XẾP HẠNG</h2>
+            <div class="stats-grid">
+                <div class="stat-box"><div class="stat-title">Top 5 Tỉnh/Thành</div><table class="rank-table" id="t-cities"></table></div>
+                <div class="stat-box"><div class="stat-title">Top 5 Trường</div><table class="rank-table" id="t-schools"></table></div>
+                <div class="stat-box"><div class="stat-title">Top 5 Xuất Sắc</div><table class="rank-table" id="t-students"></table></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- OVERLAYS -->
+    <div id="intro-overlay" class="overlay"><div class="popup"><span class="close-btn" onclick="this.parentElement.parentElement.style.display='none'">&times;</span><h2 style="color:var(--primary); text-align:center">GIỚI THIỆU</h2><p>Cuộc thi tìm hiểu về biển đảo quê hương...</p></div></div>
+    
+    <div id="reg-overlay" class="overlay">
+        <div class="popup">
+            <span class="close-btn" onclick="this.parentElement.parentElement.style.display='none'">&times;</span>
+            <h2 style="color:var(--primary); text-align:center">ĐĂNG KÝ</h2>
+            <input type="text" id="u-name" class="form-control" placeholder="Họ và Tên">
+            <input type="text" id="u-school" class="form-control" placeholder="Trường / Đơn vị">
+            <input type="text" id="u-city" class="form-control" placeholder="Tỉnh / Thành phố">
+            <button class="btn-full" onclick="startExam(false)">VÀO THI</button>
+        </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div id="quiz-view">
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px;"><span>Câu hỏi: <b id="q-idx" style="color:var(--primary)">1</b>/10</span><span id="mode-label" style="color:orange; font-weight:bold"></span></div>
+        <h3 id="q-txt">...</h3>
+        <div id="options-area"></div>
+        <div style="text-align:right; margin-top:20px;"><button class="btn-header" onclick="nextQ()">Tiếp theo</button></div>
+    </div>
+
+    <!-- RESULT -->
+    <div id="result-view" style="text-align:center">
+        <h2 style="color:var(--primary)">KẾT QUẢ</h2>
+        <p>Bạn trả lời đúng <b id="score-txt" style="color:red; font-size:1.5rem">0</b>/10 câu</p>
+        <div id="msg-txt"></div>
+        <canvas id="certCanvas"></canvas>
+        <img id="cert-final">
+        <div style="margin-top:20px; display:flex; justify-content:center; gap:10px;">
+            <a id="down-btn" class="btn-header" style="text-decoration:none; display:none; background:#fbc02d">TẢI CHỨNG NHẬN</a>
+            <button class="btn-header" style="background:#e0e0e0; color:#333" onclick="resetApp()">THI LẠI</button>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // DÁN URL WEB APP CỦA BẠN VÀO ĐÂY !!!
+        // ==========================================
+        const API_URL = "https://script.google.com/macros/s/AKfycbweCN7HteBWKYZxzCl4XkuZdTQ0DcEBHHX69giF-5gJ0Km6p1HuaWCLZldSQ8NFfBY-/exec"; 
+
+        let questions = [], curIdx = 0, score = 0, userAns = null, bgCertSrc = "", userInfo = {}, isTrial = false;
+
+        async function callAPI(action, data = {}) {
+            try {
+                // Sử dụng fetch với mode no-cors cho POST để tránh lỗi, nhưng Google Script cần trả về JSONP hoặc xử lý khác.
+                // Tuy nhiên, cách đơn giản nhất cho Vercel + GAS là dùng POST text/plain
+                const response = await fetch(API_URL, {
+                    method: "POST",
+                    body: JSON.stringify({ action, ...data })
+                });
+                return await response.json();
+            } catch (e) {
+                console.error(e);
+                return null;
+            }
+        }
+
+        window.onload = async function() {
+            document.fonts.load('10pt "Playball"');
+            const data = await callAPI("getInitData");
+            if (data) {
+                if (data.logo) document.getElementById('logo-img').src = data.logo;
+                if (data.cert) bgCertSrc = data.cert;
+                if (data.questions) questions = data.questions;
+                if (data.stats) renderStats(data.stats);
+            }
+            document.getElementById('loader').style.display = 'none';
+        };
+
+        function renderStats(d) {
+            document.getElementById('s-visits').innerText = d.visits.toLocaleString();
+            document.getElementById('s-schools').innerText = d.schools.toLocaleString();
+            document.getElementById('s-exams').innerText = d.exams.toLocaleString();
+            
+            const row = (l, v) => `<tr><td>${l}</td><td style="text-align:right;font-weight:bold">${v}</td></tr>`;
+            const fill = (id, arr, type) => {
+                let h = ''; 
+                arr.forEach((i, idx) => h += `<tr><td style="width:20px"><span class="rank-badge">#${idx+1}</span></td><td>${type=='stu'?i.name+'<br><small style="color:#777">'+i.school+'</small>':i.name}</td><td style="text-align:right;font-weight:bold">${type=='stu'?i.score+'/10':i.count}</td></tr>`);
+                document.getElementById(id).innerHTML = h || '<tr><td>Chưa có dữ liệu</td></tr>';
+            };
+            fill('t-cities', d.top_cities);
+            fill('t-schools', d.top_schools);
+            fill('t-students', d.top_students, 'stu');
+        }
+
+        function resetApp() {
+            location.reload(); // Trên Vercel dùng reload thoải mái
+        }
+
+        function startTrial() { startExam(true); }
+
+        function startExam(trial) {
+            if (!trial) {
+                const name = document.getElementById('u-name').value;
+                const school = document.getElementById('u-school').value;
+                const city = document.getElementById('u-city').value;
+                if (!name || !school || !city) return alert("Vui lòng điền đủ thông tin");
+                userInfo = { 
+                    name: name.toLowerCase().split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '), 
+                    school, city 
+                };
+            }
+            isTrial = trial;
+            score = 0; curIdx = 0;
+            document.getElementById('landing-page').style.display = 'none';
+            document.getElementById('reg-overlay').style.display = 'none';
+            document.getElementById('quiz-view').style.display = 'block';
+            document.getElementById('mode-label').innerText = trial ? "THI THỬ" : "";
+            renderQ();
+        }
+
+        function renderQ() {
+            const q = questions[curIdx];
+            document.getElementById('q-idx').innerText = curIdx + 1;
+            document.getElementById('q-txt').innerText = q.q;
+            const area = document.getElementById('options-area');
+            area.innerHTML = ''; userAns = null;
+            q.opts.forEach((opt, idx) => {
+                const btn = document.createElement('div');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                btn.onclick = () => {
+                    userAns = idx;
+                    document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                }
+                area.appendChild(btn);
+            });
+        }
+
+        async function nextQ() {
+            if (userAns === null) return alert("Chọn đáp án đi bạn!");
+            if (userAns === questions[curIdx].a) score++;
+            curIdx++;
+            if (curIdx < 10) renderQ();
+            else {
+                document.getElementById('quiz-view').style.display = 'none';
+                document.getElementById('loader').style.display = 'flex';
+                
+                if (!isTrial) {
+                    await callAPI("submit", { ...userInfo, score });
+                }
+                
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('result-view').style.display = 'block';
+                document.getElementById('score-txt').innerText = score;
+                
+                const msg = document.getElementById('msg-txt');
+                if (isTrial) {
+                    msg.innerHTML = "<h3>Hoàn thành bài thi thử.</h3>";
+                } else {
+                    if (score >= 5) {
+                        let rank = score >= 8 ? "XUẤT SẮC" : "HOÀN THÀNH";
+                        msg.innerHTML = `<h3 style="color:${rank=='XUẤT SẮC'?'green':'blue'}">Chúc mừng! Bạn đã ${rank} cuộc thi.</h3>`;
+                        drawCert(rank);
+                    } else {
+                        msg.innerHTML = `<h3 style="color:red">Chưa đạt yêu cầu nhận chứng nhận.</h3>`;
+                    }
+                }
+            }
+        }
+
+        function drawCert(rank) {
+            if (!bgCertSrc) return;
+            const canvas = document.getElementById('certCanvas');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+            img.onload = () => {
+                canvas.width = img.naturalWidth;
+                canvas.height = img.naturalHeight;
+                ctx.drawImage(img, 0, 0);
+                ctx.textAlign = 'center';
+                
+                const w = canvas.width;
+                const h = canvas.height;
+
+                // Tên (Font Playball)
+                ctx.font = `${Math.floor(w * 0.10)}px "Playball"`;
+                ctx.fillStyle = '#002855';
+                ctx.fillText(userInfo.name, w / 2, h * 0.50);
+
+                // Trường
+                ctx.font = `700 ${Math.floor(w * 0.035)}px "Roboto"`;
+                ctx.fillText(`${userInfo.school} - ${userInfo.city}`, w / 2, h * 0.55);
+
+                // Kết quả
+                ctx.font = `700 ${Math.floor(w * 0.032)}px "Roboto"`;
+                const txt = rank === "XUẤT SẮC" ? "Đã hoàn thành xuất sắc cuộc thi trực tuyến" : "Đã hoàn thành cuộc thi trực tuyến";
+                ctx.fillText(txt, w / 2, h * 0.59);
+
+                const url = canvas.toDataURL();
+                const imgShow = document.getElementById('cert-final');
+                imgShow.src = url;
+                imgShow.style.display = 'block';
+                
+                const btn = document.getElementById('down-btn');
+                btn.href = url;
+                btn.download = `ChungNhan_${userInfo.name}.png`;
+                btn.style.display = 'inline-block';
+            };
+            img.src = bgCertSrc;
+        }
+    </script>
+</body>
+</html>
