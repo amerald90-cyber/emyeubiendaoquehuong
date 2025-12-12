@@ -26,7 +26,7 @@
         #hero {
             background-color: #0288d1;
             background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.05) 0%, transparent 50%), linear-gradient(135deg, #0288d1 0%, #03a9f4 100%);
-            background-size: cover; padding: 60px 20px 120px; text-align: center; color: white; position: relative; overflow: hidden;
+            padding: 60px 20px 120px; text-align: center; color: white; position: relative; overflow: hidden;
         }
         .year-pill { display: inline-block; border: 1px solid rgba(255,255,255,0.5); padding: 6px 20px; border-radius: 20px; font-size: 0.9rem; margin-bottom: 20px; background: rgba(0,0,0,0.1); }
         .hero-title-1 { font-size: 3.5rem; font-weight: 900; margin: 0; line-height: 1; }
@@ -93,7 +93,7 @@
 
     <div id="landing-page">
         <div id="hero">
-            <div class="year-pill">Cuộc thi trực tuyến</div>
+            <div class="year-pill">Cuộc thi trực tuyến năm 2024</div>
             <h1 class="hero-title-1">EM YÊU</h1>
             <h2 class="hero-title-2">BIỂN ĐẢO QUÊ HƯƠNG</h2>
             <p class="hero-desc">Cùng tìm hiểu về lịch sử, địa lý và chủ quyền biển đảo Việt Nam.</p>
@@ -156,21 +156,24 @@
         // ==========================================
         // DÁN URL WEB APP CỦA BẠN VÀO ĐÂY !!!
         // ==========================================
-        const API_URL = "https://script.google.com/macros/s/AKfycbweCN7HteBWKYZxzCl4XkuZdTQ0DcEBHHX69giF-5gJ0Km6p1HuaWCLZldSQ8NFfBY-/exec"; 
+        const API_URL = "https://script.google.com/macros/s/AKfycbxkdK_JkxqJmBdgVYN_fvdIbd3KHaBydgAC0eIIP66uzCJEusgyszu1I8m-9iaW77UJ/exec"; 
 
         let questions = [], curIdx = 0, score = 0, userAns = null, bgCertSrc = "", userInfo = {}, isTrial = false;
 
+        // HÀM GỌI API MỚI: DÙNG POST text/plain để VERCEL KHÔNG BỊ LỖI
         async function callAPI(action, data = {}) {
             try {
-                // Sử dụng fetch với mode no-cors cho POST để tránh lỗi, nhưng Google Script cần trả về JSONP hoặc xử lý khác.
-                // Tuy nhiên, cách đơn giản nhất cho Vercel + GAS là dùng POST text/plain
                 const response = await fetch(API_URL, {
                     method: "POST",
+                    redirect: "follow",
+                    headers: {
+                        "Content-Type": "text/plain;charset=utf-8" // QUAN TRỌNG: TRÁNH LỖI PREFLIGHT
+                    },
                     body: JSON.stringify({ action, ...data })
                 });
                 return await response.json();
             } catch (e) {
-                console.error(e);
+                console.error("API Error:", e);
                 return null;
             }
         }
@@ -192,7 +195,6 @@
             document.getElementById('s-schools').innerText = d.schools.toLocaleString();
             document.getElementById('s-exams').innerText = d.exams.toLocaleString();
             
-            const row = (l, v) => `<tr><td>${l}</td><td style="text-align:right;font-weight:bold">${v}</td></tr>`;
             const fill = (id, arr, type) => {
                 let h = ''; 
                 arr.forEach((i, idx) => h += `<tr><td style="width:20px"><span class="rank-badge">#${idx+1}</span></td><td>${type=='stu'?i.name+'<br><small style="color:#777">'+i.school+'</small>':i.name}</td><td style="text-align:right;font-weight:bold">${type=='stu'?i.score+'/10':i.count}</td></tr>`);
@@ -204,7 +206,7 @@
         }
 
         function resetApp() {
-            location.reload(); // Trên Vercel dùng reload thoải mái
+            location.reload(); 
         }
 
         function startTrial() { startExam(true); }
@@ -222,6 +224,13 @@
             }
             isTrial = trial;
             score = 0; curIdx = 0;
+            
+            // KIỂM TRA DỮ LIỆU CÂU HỎI TRƯỚC KHI VÀO THI
+            if (!questions || questions.length === 0) {
+                alert("Đang tải bộ câu hỏi, vui lòng thử lại sau giây lát...");
+                return;
+            }
+
             document.getElementById('landing-page').style.display = 'none';
             document.getElementById('reg-overlay').style.display = 'none';
             document.getElementById('quiz-view').style.display = 'block';
@@ -230,6 +239,13 @@
         }
 
         function renderQ() {
+            // SỬA LỖI: Kiểm tra nếu câu hỏi không tồn tại
+            if (!questions[curIdx]) {
+                alert("Đã xảy ra lỗi tải câu hỏi. Vui lòng thi lại.");
+                resetApp();
+                return;
+            }
+
             const q = questions[curIdx];
             document.getElementById('q-idx').innerText = curIdx + 1;
             document.getElementById('q-txt').innerText = q.q;
