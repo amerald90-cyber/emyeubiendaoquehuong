@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuộc thi Em Yêu Biển Đảo Quê Hương</title>
+    
+    <!-- LOAD FONT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&subset=vietnamese&family=Dancing+Script:wght@700&family=Great+Vibes&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root { 
+            --primary: #002855; 
+            --blue-sea: #0091ea; 
+            --yellow: #fdd835; 
+            --text-dark: #333; 
+            --bg-gray: #f4f7f6;
+        }
+        body { font-family: 'Roboto', sans-serif; margin: 0; padding: 0; background: var(--bg-gray); color: var(--text-dark); display: flex; flex-direction: column; min-height: 100vh; }
+        
+        /* PRELOAD FONT */
+        #font-preload { font-family: 'Oswald', sans-serif; font-weight: 700; opacity: 0; position: absolute; z-index: -1; pointer-events: none; }
+        #font-preload-2 { font-family: 'Great Vibes', cursive; opacity: 0; position: absolute; z-index: -1; pointer-events: none; }
+
+        /* MÀN HÌNH CHÀO */
+        #welcome-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #0288d1 0%, #003c8f 60%, #001a38 100%);
+            z-index: 10000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            color: white; text-align: center;
+            transition: opacity 0.5s ease, visibility 0.5s;
+        }
+        .welcome-logo { height: 140px; margin: 0 20px 40px 20px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5)); transition: transform 0.3s; }
+        .welcome-logo:hover { transform: scale(1.1); }
+        
+        .welcome-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            padding: 0 20px;
+            background: linear-gradient(to bottom, #fff 0%, #fdd835 50%, #fbc02d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
+            letter-spacing: 2px;
+        }
+        
+        .welcome-subtitle { font-size: 1.3rem; margin-bottom: 50px; opacity: 0.9; font-weight: 300; letter-spacing: 1px; }
+
+        .welcome-btn {
+            background: linear-gradient(to right, #fdd835, #f57f17); 
+            color: #002855; 
+            padding: 18px 60px; font-size: 1.8rem; font-weight: 900; 
+            border: none; border-radius: 60px; cursor: pointer;
+            box-shadow: 0 0 30px rgba(253, 216, 53, 0.6);
+            animation: pulseBtn 2s infinite;
+            text-transform: uppercase; font-family: 'Oswald', sans-serif;
+            letter-spacing: 1.5px; border: 2px solid #fff;
+        }
+        @keyframes pulseBtn { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(253, 216, 53, 0.7); } 70% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(253, 216, 53, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(253, 216, 53, 0); } }
+
+        /* HEADER */
+        header { 
+            padding: 12px 5%; display: flex; justify-content: space-between; align-items: center; 
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+            position: sticky; top: 0; z-index: 5000; box-shadow: 0 4px 20px rgba(0,0,0,0.08); 
+        }
+        .logo-area { display: flex; align-items: center; gap: 15px; cursor: pointer; }
+        .logo-area img { height: 55px; }
+        .logo-text h1 { margin: 0; color: #002855; font-size: 1.2rem; font-weight: 900; text-transform: uppercase; }
+        
+        .nav-right { display: flex; align-items: center; gap: 15px; }
+        .nav-link { text-decoration: none; color: #002855; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 0.95rem; transition:0.3s; }
+        .nav-link:hover { color: var(--blue-sea); }
+        .btn-header { background: var(--yellow); border: none; padding: 10px 25px; border-radius: 30px; font-weight: 900; cursor: pointer; box-shadow: 0 4px #fbc02d; color: var(--primary); transition: 0.2s; font-family: 'Roboto', sans-serif; }
+        .btn-header:active { transform: translateY(2px); box-shadow: 0 2px #fbc02d; }
+        
+        #music-btn { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--blue-sea); background: white; color: var(--blue-sea); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; transition: 0.3s; z-index: 5001; }
+        #music-btn.playing { background: var(--blue-sea); color: white; animation: rotateMusic 4s infinite linear; }
+        @keyframes rotateMusic { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* HERO */
+        #hero { background: linear-gradient(135deg, #0288d1 0%, #01579b 100%); padding: 50px 20px 120px; text-align: center; color: white; position: relative; overflow: hidden; }
+        .hero-logos { display: flex; justify-content: center; gap: 20px; margin-bottom: 25px; }
+        .hero-logo-img { height: 110px; object-fit: contain; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3)); }
+        .year-pill { display: inline-block; border: 1px solid rgba(255,255,255,0.4); background: rgba(255,255,255,0.1); padding: 8px 30px; border-radius: 50px; font-size: 1rem; margin-bottom: 20px; letter-spacing: 1px; }
+        .hero-title-1 { font-size: 4rem; font-weight: 900; margin: 0; line-height: 1; text-shadow: 0 5px 15px rgba(0,0,0,0.3); font-family: 'Oswald', sans-serif; }
+        .hero-title-2 { font-size: 4rem; font-weight: 900; margin: 5px 0 30px; color: var(--yellow); text-shadow: 0 5px 15px rgba(0,0,0,0.3); font-family: 'Oswald', sans-serif; }
+        .hero-desc { max-width: 700px; margin: 0 auto 40px; font-size: 1.2rem; opacity: 0.9; line-height: 1.6; }
+        .btn-register { font-family: 'Roboto', 'Arial', sans-serif; font-size: 22px; font-weight: 900; background: linear-gradient(to bottom, #fdd835, #f9a825); padding: 15px 50px; border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.3); transition: 0.2s; color: #002855; text-transform: uppercase; }
+        .btn-register:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(0,0,0,0.4); }
+        .wave-bottom { position: absolute; bottom: -1px; left: 0; width: 100%; line-height: 0; }
+        .wave-bottom svg { width: 100%; height: 90px; fill: #f4f7f6; }
+
+        /* CARDS & STATS */
+        .cards-section { padding: 0 20px; margin-top: -60px; position: relative; z-index: 2; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .info-card { background: #fff; width: 240px; padding: 20px 15px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center; border-top: 4px solid transparent; transition: transform 0.3s; }
+        .info-card.blue-theme { border-top-color: #1565c0; }
+        .info-card.pink-theme { border-top-color: #c2185b; }
+        .info-card.yellow-theme { border-top-color: #fbc02d; }
+        .info-card:hover { transform: translateY(-5px); }
+        .icon-circle { width: 55px; height: 55px; background: #e3f2fd; color: #1565c0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin: 0 auto 10px; }
+        .icon-circle.pink { background: #fce4ec; color: #c2185b; }
+        .icon-circle.yellow { background: #fffde7; color: #fbc02d; }
+        .card-num { font-size: 1.8rem; font-weight: 700; color: #333; margin-bottom: 2px; font-family: 'Oswald', sans-serif; }
+        .card-label { font-size: 0.9rem; color: #666; font-weight: 500; }
+        
+        .stats-container { max-width: 1100px; margin: 50px auto; padding: 20px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .stat-box { background: #fff; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); padding: 25px; border: 1px solid #eee; }
+        .stat-title { text-align: center; color: #002855; font-weight: 900; text-transform: uppercase; margin-bottom: 15px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; font-size: 1.1rem; }
+        
+        .rank-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+        .rank-table td { padding: 10px; border-bottom: 1px solid #f5f5f5; color: #555; }
+        
+        /* MÀU SẮC TOP 1-2-3 */
+        .rank-badge { padding: 3px 8px; border-radius: 10px; font-size: 0.8rem; font-weight: 700; display:inline-block; min-width:20px; text-align:center; }
+        .rank-1 .rank-badge { background: #FFD700; color: #fff; box-shadow: 0 2px 5px rgba(255, 215, 0, 0.4); } /* Vàng */
+        .rank-2 .rank-badge { background: #C0C0C0; color: #fff; } /* Bạc */
+        .rank-3 .rank-badge { background: #CD7F32; color: #fff; } /* Đồng */
+        .rank-other .rank-badge { background: #e3f2fd; color: #002855; }
+
+        /* QUIZ VIEW */
+        #quiz-view { display: none; max-width: 900px; margin: 40px auto; padding: 0; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); background: url('https://drive.google.com/uc?export=download&id=1AxwtzPQkPPSupZZ6_rGTo1zneI0ualy2') no-repeat center center; background-size: cover; overflow: hidden; position: relative; min-height: 550px; }
+        .quiz-glass-panel { background: rgba(255, 255, 255, 0.93); backdrop-filter: blur(10px); margin: 30px; padding: 30px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0, 40, 85, 0.2); border: 1px solid rgba(255, 255, 255, 0.6); }
+        .option-btn { display: block; width: 100%; text-align: left; padding: 15px 20px; margin-bottom: 12px; border: 2px solid #eef2f5; border-radius: 12px; cursor: pointer; transition: all 0.25s ease; background: #fff; font-size: 1.05rem; color: #444; font-weight: 500; }
+        .option-btn:hover { background: #f0f9ff; border-color: #0091ea; transform: translateX(5px); }
+        .option-btn.selected { background: #002855; color: white; border-color: #002855; box-shadow: 0 5px 15px rgba(0, 40, 85, 0.3); }
+
+        /* CHATBOT */
+        #chatbot-widget { position: fixed; bottom: 30px; right: 30px; z-index: 3000; display: none; }
+        #chat-toggle { width: 65px; height: 65px; border-radius: 50%; background: #fff; box-shadow: 0 5px 20px rgba(0,0,0,0.3); cursor: pointer; border: 3px solid #fff; overflow: hidden; transition: transform 0.3s; }
+        #chat-toggle img { width: 100%; height: 100%; object-fit: cover; }
+        #chat-window { display: none; position: absolute; bottom: 80px; right: 0; width: 350px; height: 480px; background: #fff; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); flex-direction: column; overflow: hidden; border: 1px solid #eee; }
+        .chat-header { background: #002855; color: white; padding: 15px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
+        .chat-header img { width: 35px; height: 35px; border-radius: 50%; border: 2px solid white; object-fit: cover; }
+        .chat-close { margin-left: auto; cursor: pointer; font-size: 1.2rem; }
+        .chat-body { flex: 1; padding: 15px; overflow-y: auto; background: #f9fcff; display: flex; flex-direction: column; gap: 10px; }
+        .msg { max-width: 85%; padding: 10px 15px; border-radius: 15px; font-size: 0.95rem; line-height: 1.5; word-wrap: break-word; }
+        .msg-bot { background: #e3f2fd; align-self: flex-start; border-bottom-left-radius: 2px; color: #333; }
+        .msg-user { background: #002855; color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+        .chat-footer { padding: 12px; border-top: 1px solid #eee; display: flex; gap: 8px; align-items: center; }
+        .chat-input { flex: 1; padding: 10px 15px; border: 1px solid #ddd; border-radius: 25px; outline: none; }
+        .chat-btn { background: #002855; color: white; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; font-size: 0.9rem; }
+        
+        /* POPUP GIỚI THIỆU */
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 999; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .popup { background: #fff; padding: 30px; width: 90%; max-width: 900px; border-radius: 20px; position: relative; animation: slideIn 0.3s; max-height: 85vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.4); }
+        @keyframes slideIn { from {transform: translateY(-20px); opacity: 0;} to {transform: translateY(0); opacity: 1;} }
+        
+        .intro-content h2 { text-align: center; color: #002855; margin-bottom: 20px; font-size: 1.6rem; border-bottom: 2px solid #fdd835; padding-bottom: 10px; display: inline-block; font-family: 'Oswald', sans-serif; }
+        .intro-logos { display: flex; justify-content: center; gap: 20px; margin-bottom: 20px; }
+        .intro-logo-img { height: 80px; object-fit: contain; }
+        .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px; }
+        .intro-section-title { color: #002855; font-weight: 800; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; font-size: 1.1rem; text-transform: uppercase; background: #e3f2fd; padding: 6px 12px; border-radius: 8px; }
+        .intro-list { padding-left: 20px; margin: 0; }
+        .intro-list li { margin-bottom: 8px; line-height: 1.5; font-size: 0.95rem; color: #444; }
+
+        .close-btn { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 1.8rem; color: #999; }
+        .form-control { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        .btn-full { width: 100%; background: #002855; color: white; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        
+        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 2000; display: flex; justify-content: center; align-items: center; }
+        #result-view { display: none; max-width: 800px; margin: 40px auto; padding: 30px; background: #fff; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+        #cert-final { width: 100%; border: 5px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.2); margin-top: 20px; display: none; }
+        canvas { display: none; }
+
+        /* FOOTER */
+        footer { background: #001a38; color: white; padding: 30px 20px; text-align: center; margin-top: auto; border-top: 5px solid #fdd835; }
+        .footer-content { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; align-items: center; }
+        .footer-content p { margin: 0; font-size: 0.9rem; opacity: 0.9; }
+        .footer-highlight { color: var(--yellow); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+        .social-links { display: flex; gap: 15px; margin-top: 5px; flex-wrap: wrap; justify-content: center; }
+        .fb-link { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); color: white; text-decoration: none; padding: 8px 20px; border-radius: 25px; font-size: 0.85rem; transition: 0.3s; border: 1px solid rgba(255,255,255,0.2); }
+        .fb-link:hover { background: var(--blue-sea); border-color: var(--blue-sea); }
+
+        @media (max-width: 768px) { 
+            .welcome-title { font-size: 2.5rem; } 
+            .intro-grid { grid-template-columns: 1fr; }
+            .hero-title-1, .hero-title-2 { font-size: 2.5rem; } 
+            .nav-link { display: none; } 
+            #chat-window { width: 300px; right: -10px; bottom: 80px; } 
+            .quiz-glass-panel { margin: 15px; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="font-preload">ĐINH MINH KHANG - TEST FONT Ư Ơ Á Ị</div>
+    <div id="font-preload-2">Nguyễn Văn A</div>
+
+    <div id="welcome-screen">
+        <div class="hero-logos">
+            <img src="https://lh3.googleusercontent.com/d/1wkVL6p7qxWY6Ny6lFGcJlOZmurPWcbHt" alt="Logo 1" class="welcome-logo">
+            <img src="https://lh3.googleusercontent.com/d/1AKL6--tLvgF13WgCasRSl6fKtCpP4LmL" alt="Logo 2" class="welcome-logo">
+        </div>
+        <h1 class="welcome-title">CHÀO MỪNG ĐẾN VỚI CUỘC THI<br>EM YÊU BIỂN ĐẢO QUÊ HƯƠNG</h1>
+        <p class="welcome-subtitle">Khơi dậy tình yêu biển đảo - Bảo vệ chủ quyền thiêng liêng của Tổ quốc</p>
+        <button class="welcome-btn" onclick="enterSite()">BẤM ĐỂ VÀO THI</button>
+    </div>
+
+    <audio id="bg-audio" loop preload="none">
+        <source src="https://drive.google.com/uc?export=download&id=1NXOxVD3ralb7zxVWJYtfs6HzVjObn4L-" type="audio/mp3">
+    </audio>
+
+    <div id="loader"><i class="fas fa-spinner fa-spin fa-3x" style="color:var(--primary)"></i></div>
+
+    <header>
+        <div class="logo-area" onclick="goHome()">
+            <img id="logo-img" src="" alt="Logo">
+            <div class="logo-text"><h1>EM YÊU BIỂN ĐẢO</h1><span>QUÊ HƯƠNG</span></div>
+        </div>
+        <div class="nav-right">
+            <!-- NÚT TRANG CHỦ GỌI HÀM goHome() -->
+            <span class="nav-link" onclick="goHome()">TRANG CHỦ</span>
+            <span class="nav-link" onclick="document.getElementById('intro-overlay').style.display='flex'">GIỚI THIỆU</span>
+            <button id="music-btn" onclick="toggleMusic(event)"><i class="fas fa-volume-mute" id="music-icon"></i></button>
+            <button class="btn-header" onclick="startTrial()">THI THỬ NGAY</button>
+        </div>
+    </header>
+
+    <div id="landing-page">
+        <div id="hero">
+            <div class="hero-logos">
+                <img src="https://lh3.googleusercontent.com/d/1wkVL6p7qxWY6Ny6lFGcJlOZmurPWcbHt" alt="Logo 1" class="hero-logo-img">
+                <img src="https://lh3.googleusercontent.com/d/1AKL6--tLvgF13WgCasRSl6fKtCpP4LmL" alt="Logo 2" class="hero-logo-img">
+            </div>
+            <div class="year-pill">Cuộc thi trực tuyến năm 2025</div>
+            <h1 class="hero-title-1">EM YÊU</h1>
+            <h2 class="hero-title-2">BIỂN ĐẢO QUÊ HƯƠNG</h2>
+            <p class="hero-desc">Cùng tìm hiểu về lịch sử, địa lý và chủ quyền biển đảo Việt Nam.</p>
+            <button class="btn-register" onclick="document.getElementById('reg-overlay').style.display='flex'">Đăng Ký Dự Thi</button>
+            <div class="wave-bottom"><svg viewBox="0 0 1440 320"><path fill="#f4f7f6" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,261.3C960,256,1056,224,1152,197.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg></div>
+        </div>
+
+        <div class="cards-section">
+            <div class="info-card blue-theme">
+                <div class="icon-circle"><i class="fas fa-users"></i></div>
+                <div class="card-num" id="s-visits">...</div>
+                <div class="card-label">Lượt truy cập</div>
+            </div>
+            <div class="info-card pink-theme">
+                <div class="icon-circle pink"><i class="fas fa-school"></i></div>
+                <div class="card-num" id="s-schools">...</div>
+                <div class="card-label">Trường tham gia</div>
+            </div>
+            <div class="info-card yellow-theme">
+                <div class="icon-circle yellow"><i class="fas fa-trophy"></i></div>
+                <div class="card-num" id="s-exams">...</div>
+                <div class="card-label">Lượt dự thi</div>
+            </div>
+        </div>
+
+        <div class="stats-container">
+            <h2 style="text-align:center; margin-bottom:40px; color:#333; font-weight:900; font-family:'Oswald',sans-serif; font-size:2rem;">BẢNG XẾP HẠNG</h2>
+            <div class="stats-grid">
+                <div class="stat-box"><div class="stat-title">Top 5 Tỉnh/Thành</div><table class="rank-table" id="t-cities"></table></div>
+                <div class="stat-box"><div class="stat-title">Top 5 Trường</div><table class="rank-table" id="t-schools"></table></div>
+                <div class="stat-box"><div class="stat-title">Top 5 Xuất Sắc</div><table class="rank-table" id="t-students"></table></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHATBOT WIDGET -->
+    <div id="chatbot-widget">
+        <div id="chat-window">
+            <div class="chat-header">
+                <img src="https://lh3.googleusercontent.com/d/1ozaJRFGUjjIrAd4g54ZTdYLg5TWufo0h" alt="Cô Bích">
+                <span>Cô Bích - Hỗ trợ</span>
+                <span class="chat-close" onclick="toggleChat()">&times;</span>
+            </div>
+            <div class="chat-body" id="chat-body">
+                <div class="msg msg-bot">Chào con! Cô là Bích. Cố gắng làm bài thật tốt nhé! ❤️</div>
+            </div>
+            <div class="chat-footer">
+                <input type="text" id="chat-input" class="chat-input" placeholder="Hỏi cô Bích..." onkeypress="handleChatKey(event)">
+                <button class="chat-btn" onclick="sendChat()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+        <div id="chat-toggle" onclick="toggleChat()">
+            <img src="https://lh3.googleusercontent.com/d/1ozaJRFGUjjIrAd4g54ZTdYLg5TWufo0h" alt="Chat">
+        </div>
+    </div>
+
+    <!-- POPUP GIỚI THIỆU -->
+    <div id="intro-overlay" class="overlay">
+        <div class="popup intro-content">
+            <span class="close-btn" onclick="this.parentElement.parentElement.style.display='none'">&times;</span>
+            <h2>GIỚI THIỆU CUỘC THI</h2>
+            <div class="intro-grid">
+                <div>
+                    <div class="intro-section-title"><i class="fas fa-info-circle"></i> Tổng quan</div>
+                    <p style="text-align:justify; line-height:1.6; font-size:0.95rem;">
+                        Cuộc thi “Em yêu biển, đảo Việt Nam” là hoạt động trọng tâm nằm trong Đề án 3934 của Bộ Quốc phòng và kế hoạch triển khai của Cảnh sát biển Việt Nam giai đoạn 2024 – 2030. Cuộc thi nhằm giáo dục truyền thống yêu nước, nâng cao hiểu biết pháp luật về biển, đảo cho thế hệ trẻ.
+                    </p>
+                    <div class="intro-section-title"><i class="fas fa-file-alt"></i> Căn cứ triển khai</div>
+                    <ul class="intro-list">
+                        <li>Quyết định số 3934/QĐ-BQP ngày 03/9/2024.</li>
+                        <li>Kế hoạch số 12694/KH-CSB ngày 13/11/2024.</li>
+                        <li>Hướng dẫn số 13956/HD-BCĐ ngày 04/12/2024.</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="intro-section-title"><i class="fas fa-bullseye"></i> Mục đích</div>
+                    <ul class="intro-list">
+                        <li>Tuyên truyền kiến thức về lịch sử, pháp luật biển đảo.</li>
+                        <li>Phòng chống ma túy, bạo lực học đường.</li>
+                        <li>Xây dựng lòng yêu nước, trách nhiệm công dân.</li>
+                    </ul>
+                    <div class="intro-section-title"><i class="fas fa-users"></i> Tổ chức</div>
+                    <ul class="intro-list">
+                        <li><strong>Đoàn TNCS Hồ Chí Minh Cảnh sát biển Việt Nam</strong></li>
+                        <li>Phối hợp công nghệ: <strong>Hành trình số Việt Nam My Love</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="reg-overlay" class="overlay">
+        <div class="popup">
+            <span class="close-btn" onclick="this.parentElement.parentElement.style.display='none'">&times;</span>
+            <h2 style="color:#002855; text-align:center; margin-bottom:25px;">ĐĂNG KÝ DỰ THI</h2>
+            <input type="text" id="u-name" class="form-control" placeholder="Họ và Tên">
+            <input type="text" id="u-school" class="form-control" placeholder="Trường / Đơn vị">
+            <input type="text" id="u-city" class="form-control" placeholder="Tỉnh / Thành phố">
+            <button class="btn-full" onclick="startExam(false)">VÀO THI NGAY</button>
+        </div>
+    </div>
+
+    <div id="quiz-view">
+        <div class="quiz-glass-panel">
+            <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+                <span style="font-weight:bold; color:#002855; font-size:1.1rem">Câu hỏi: <b id="q-idx" style="color:#e65100; font-size:1.3rem">1</b>/10</span>
+                <span id="mode-label" style="color:#e65100; font-weight:bold; background:rgba(255,255,255,0.8); padding:2px 10px; border-radius:10px;"></span>
+            </div>
+            <h3 id="q-txt" style="color:#002855; font-size:1.4rem; min-height:60px;">...</h3>
+            <div id="options-area" style="margin-top:20px;"></div>
+            <div style="text-align:right; margin-top:30px;">
+                <button class="btn-header" onclick="nextQ()" style="padding:10px 30px; font-size:1.1rem">Tiếp theo <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="result-view" style="text-align:center">
+        <h2 style="color:#002855">KẾT QUẢ</h2>
+        <p>Bạn trả lời đúng <b id="score-txt" style="color:red; font-size:1.5rem">0</b>/10 câu</p>
+        <div id="msg-txt"></div>
+        <canvas id="certCanvas"></canvas>
+        <img id="cert-final">
+        <div style="margin-top:20px; display:flex; justify-content:center; gap:10px;">
+            <a id="down-btn" class="btn-header" style="text-decoration:none; display:none; background:#fbc02d; color:#002855">TẢI CHỨNG NHẬN</a>
+            <button class="btn-header" style="background:#e0e0e0; color:#333" onclick="resetApp()">THI LẠI</button>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 Ban Chỉ Đạo Cuộc Thi "Em Yêu Biển Đảo Quê Hương". Bản quyền thuộc về Cảnh Sát Biển Việt Nam.</p>
+            <p class="footer-highlight">Phối hợp công nghệ: Hành trình số Việt Nam My Love</p>
+            <div class="social-links">
+                <a href="https://www.facebook.com/groups/1801935770443791" target="_blank" class="fb-link">
+                    <i class="fab fa-facebook-square"></i> Group Cộng Đồng
+                </a>
+                <a href="https://www.facebook.com/tuoitrecanhsatbienvietnam" target="_blank" class="fb-link">
+                    <i class="fab fa-facebook"></i> Fanpage Tuổi Trẻ CSB
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycbyBXBPa-Y2lupBBN1EXrU-QgzYEQ1f-GMpFjxBjJx2eJqPU7LtCiRhy42V8XXI1rOMs/exec"; 
+
+        let questions = [], fullQuestionBank = [];
+        let curIdx = 0, score = 0, userAns = null, bgCertSrc = "", userInfo = {}, isTrial = false;
+        const audio = document.getElementById("bg-audio");
+        let musicStarted = false;
+
+        function enterSite() {
+            var welcome = document.getElementById('welcome-screen');
+            welcome.style.opacity = '0';
+            welcome.style.pointerEvents = 'none'; 
+            setTimeout(() => { welcome.style.display = 'none'; }, 500);
+            playMusicSafe();
+        }
+
+        // --- HÀM VỀ TRANG CHỦ (KHÔNG LOAD LẠI TRANG) ---
+        function goHome() {
+            // Ẩn tất cả các màn hình thi/kết quả
+            document.getElementById('quiz-view').style.display = 'none';
+            document.getElementById('result-view').style.display = 'none';
+            document.getElementById('reg-overlay').style.display = 'none';
+            document.getElementById('intro-overlay').style.display = 'none';
+            document.getElementById('welcome-screen').style.display = 'none';
+            
+            // Hiện lại Landing Page
+            document.getElementById('landing-page').style.display = 'block';
+            
+            // Nếu nhạc chưa chạy thì thử chạy
+            if (!musicStarted && audio.paused) {
+                playMusicSafe();
+            }
+        }
+
+        function resetApp() { 
+            goHome(); // Tái sử dụng hàm goHome
+        }
+
+        function playMusicSafe() {
+            audio.volume = 1.0;
+            var promise = audio.play();
+            if (promise !== undefined) {
+                promise.then(_ => {
+                    musicStarted = true;
+                    updateMusicBtn(true);
+                }).catch(error => { console.log("Autoplay blocked"); });
+            }
+        }
+
+        function toggleMusic(e) { 
+            e.stopPropagation(); 
+            if (audio.paused) { playMusicSafe(); } else { audio.pause(); updateMusicBtn(false); } 
+        }
+        
+        function updateMusicBtn(isPlaying) { 
+            const btn = document.getElementById('music-btn'); 
+            const icon = document.getElementById('music-icon'); 
+            if (isPlaying) { btn.classList.add('playing'); icon.className = 'fas fa-music'; } else { btn.classList.remove('playing'); icon.className = 'fas fa-volume-mute'; } 
+        }
+
+        async function callAPI(action, data = {}) {
+            try {
+                const response = await fetch(API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify({ action, ...data })
+                });
+                return await response.json();
+            } catch (e) { console.error(e); return null; }
+        }
+
+        function toggleChat() { const win = document.getElementById('chat-window'); win.style.display = (win.style.display === 'flex') ? 'none' : 'flex'; }
+        function handleChatKey(e) { if (e.key === 'Enter') sendChat(); }
+        function sendChat() { 
+            const input = document.getElementById('chat-input'); 
+            const msg = input.value.trim(); 
+            if (!msg) return; 
+            addMsg(msg, 'user'); 
+            input.value = ''; 
+            setTimeout(() => { const response = findSmartAnswer(msg); addMsg(response.text, 'bot'); }, 600); 
+        }
+        function addMsg(text, type) { 
+            const body = document.getElementById('chat-body'); 
+            const div = document.createElement('div'); 
+            div.className = `msg msg-${type}`; 
+            div.innerHTML = text; 
+            body.appendChild(div); body.scrollTop = body.scrollHeight; 
+        }
+        function findSmartAnswer(query) {
+            const normalizedQuery = query.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            if (normalizedQuery.includes("chao") || normalizedQuery == "hi") return { text: "Chào con! Cô là Bích. Con cần cô giúp gì không?" };
+            if (normalizedQuery.includes("cam on")) return { text: "Không có chi con nhé! Cố gắng học tốt nha." };
+            let bestMatch = null, maxScore = 0;
+            const sourceData = fullQuestionBank.length > 0 ? fullQuestionBank : questions;
+            for (const item of sourceData) {
+                const normalizedQ = item.q.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                let score = 0;
+                const keywords = normalizedQuery.split(' ');
+                keywords.forEach(word => { if (word.length > 1 && normalizedQ.includes(word)) score++; });
+                if (score > maxScore) { maxScore = score; bestMatch = item; }
+            }
+            if (bestMatch && maxScore >= 2) { 
+                const correctAns = bestMatch.opts[bestMatch.a];
+                let explanation = bestMatch.expl ? bestMatch.expl : "Kiến thức này rất quan trọng, con nhớ kỹ nhé.";
+                const praises = ["Câu hỏi hay lắm!", "Con hỏi đúng trọng tâm rồi!", "Giỏi lắm!"];
+                const randomPraise = praises[Math.floor(Math.random() * praises.length)];
+                const html = `<b>Cô Bích:</b> ${randomPraise}<br><br>✅ <b>Đáp án:</b> <span style="color:#0091ea; font-weight:bold">${correctAns}</span><br><br>📖 <b>Kiến thức:</b> ${explanation}<br><br>Con tiếp tục cố gắng nhé! 💪`;
+                return { text: html };
+            } else { 
+                return { text: "<b>Cô Bích:</b> Câu này cô chưa tìm thấy trong ngân hàng đề. Con thử kiểm tra lại chính tả xem sao nhé." }; 
+            }
+        }
+
+        window.onload = async function() {
+            // Tối ưu hóa Loader: Tự tắt sau 1.5s
+            setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 1500);
+
+            await document.fonts.load('400 110px "Great Vibes"');
+            await document.fonts.load('700 60px "Oswald"');
+            
+            const data = await callAPI("getInitData");
+            if (data) {
+                if (data.logo) document.getElementById('logo-img').src = data.logo;
+                if (data.cert) bgCertSrc = data.cert;
+                if (data.examQuestions) questions = data.examQuestions;
+                if (data.fullBank) fullQuestionBank = data.fullBank;
+                if (data.stats) renderStats(data.stats);
+            }
+            // Ẩn loader nếu API về nhanh
+            document.getElementById('loader').style.display = 'none';
+        };
+
+        function renderStats(d) {
+            document.getElementById('s-visits').innerText = d.visits.toLocaleString();
+            document.getElementById('s-schools').innerText = d.schools.toLocaleString();
+            document.getElementById('s-exams').innerText = d.exams.toLocaleString();
+            
+            // SẮP XẾP LẠI (CAO -> THẤP)
+            const topStudents = d.top_students.sort((a, b) => b.score - a.score);
+
+            const fill = (id, arr, type) => { 
+                let h = ''; 
+                arr.forEach((i, idx) => {
+                    let rankClass = idx === 0 ? 'rank-1' : idx === 1 ? 'rank-2' : idx === 2 ? 'rank-3' : 'rank-other';
+                    h += `<tr class="${rankClass}"><td style="width:20px"><span class="rank-badge">#${idx+1}</span></td><td>${type=='stu'?i.name+'<br><small style="color:#777">'+i.school+'</small>':i.name}</td><td style="text-align:right;font-weight:bold">${type=='stu'?i.score+'/10':i.count}</td></tr>`;
+                }); 
+                document.getElementById(id).innerHTML = h || '<tr><td>Chưa có dữ liệu</td></tr>'; 
+            };
+            
+            fill('t-cities', d.top_cities); 
+            fill('t-schools', d.top_schools); 
+            fill('t-students', topStudents, 'stu');
+        }
+
+        function startTrial() { startExam(true); }
+
+        function startExam(trial) {
+            if (!trial) {
+                const name = document.getElementById('u-name').value;
+                const school = document.getElementById('u-school').value;
+                const city = document.getElementById('u-city').value;
+                if (!name || !school || !city) return alert("Vui lòng điền đủ thông tin");
+                let formattedName = name.toLowerCase().split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                userInfo = { name: formattedName, school, city };
+            }
+            if (fullQuestionBank.length > 0) questions = fullQuestionBank.sort(() => 0.5 - Math.random()).slice(0, 10);
+            else if (questions.length === 0) { alert("Đang tải dữ liệu, vui lòng đợi..."); return; }
+            isTrial = trial; score = 0; curIdx = 0;
+            document.getElementById('landing-page').style.display = 'none';
+            document.getElementById('reg-overlay').style.display = 'none';
+            document.getElementById('quiz-view').style.display = 'block';
+            document.getElementById('mode-label').innerText = trial ? "THI THỬ" : "";
+            document.getElementById('chat-window').style.display = 'none'; 
+            renderQ();
+        }
+
+        function renderQ() {
+            if (curIdx >= 5) document.getElementById('chatbot-widget').style.display = 'block';
+            else document.getElementById('chatbot-widget').style.display = 'none';
+            const q = questions[curIdx];
+            document.getElementById('q-idx').innerText = curIdx + 1;
+            document.getElementById('q-txt').innerText = q.q;
+            const area = document.getElementById('options-area');
+            area.innerHTML = ''; userAns = null;
+            q.opts.forEach((opt, idx) => {
+                const btn = document.createElement('div');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                btn.onclick = () => { userAns = idx; document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); }
+                area.appendChild(btn);
+            });
+        }
+
+        async function nextQ() {
+            if (userAns === null) return alert("Chọn đáp án đi bạn!");
+            if (userAns === questions[curIdx].a) score++;
+            curIdx++;
+            if (curIdx < 10) renderQ();
+            else {
+                document.getElementById('quiz-view').style.display = 'none';
+                document.getElementById('chatbot-widget').style.display = 'none'; 
+                document.getElementById('loader').style.display = 'flex';
+                if (!isTrial) await callAPI("submit", { ...userInfo, score });
+                setTimeout(() => {
+                    document.getElementById('loader').style.display = 'none';
+                    document.getElementById('result-view').style.display = 'block';
+                    document.getElementById('score-txt').innerText = score;
+                    if (isTrial) document.getElementById('msg-txt').innerHTML = "<h3>Hoàn thành bài thi thử.</h3>"; 
+                    else { 
+                        if (score >= 5) { 
+                            let rank = score >= 8 ? "XUẤT SẮC" : "HOÀN THÀNH"; 
+                            document.getElementById('msg-txt').innerHTML = `<h3 style="color:green">Chúc mừng! Bạn đã tham gia ${rank} cuộc thi.</h3>`; 
+                            drawCert(rank); 
+                        } else document.getElementById('msg-txt').innerHTML = `<h3 style="color:red">Chưa đạt yêu cầu nhận chứng nhận.</h3>`; 
+                    }
+                }, 2000); 
+            }
+        }
+
+        function drawCert(rank) {
+            if (!bgCertSrc) return;
+            const canvas = document.getElementById('certCanvas');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+            img.onload = async () => {
+                canvas.width = img.naturalWidth; canvas.height = img.naturalHeight;
+                ctx.drawImage(img, 0, 0); const w = canvas.width; const h = canvas.height;
+                try { await document.fonts.load('400 80px "Great Vibes"', userInfo.name); } catch(e) {}
+                ctx.textAlign = 'center';
+                ctx.font = "400 80px 'Great Vibes', cursive"; ctx.fillStyle = '#002855'; ctx.fillText(userInfo.name, w / 2, h * 0.50);
+                try { await document.fonts.load('700 35px "Oswald"'); } catch(e) {}
+                ctx.font = "700 35px 'Oswald', sans-serif"; ctx.fillStyle = '#002855'; ctx.fillText(`${userInfo.school} - ${userInfo.city}`, w / 2, h * 0.55);
+                ctx.font = "700 30px 'Roboto', sans-serif";
+                const txt = rank === "XUẤT SẮC" ? "Đã hoàn thành xuất sắc cuộc thi trực tuyến" : "Đã hoàn thành cuộc thi trực tuyến";
+                ctx.fillText(txt, w / 2, h * 0.59);
+                const url = canvas.toDataURL();
+                document.getElementById('cert-final').src = url;
+                document.getElementById('cert-final').style.display = 'block';
+                const btn = document.getElementById('down-btn'); btn.href = url; btn.download = `ChungNhan_${userInfo.name}.png`; btn.style.display = 'inline-block';
+            };
+            img.src = bgCertSrc;
+        }
+    </script>
+</body>
+</html>
