@@ -7,6 +7,9 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- PRELOAD ẢNH CHỨNG NHẬN ĐỂ LOAD NHANH -->
+    <link rel="preload" as="image" href="https://lh3.googleusercontent.com/d/1HCIrAhA-wIkLi-JeMf7LcITm32RRVjQF">
+    
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&subset=vietnamese&family=Dancing+Script:wght@700&family=Great+Vibes&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
@@ -307,15 +310,20 @@
         </div>
     </div>
     
+    <!-- KHUNG ĐĂNG KÝ ĐÃ ĐƯỢC CẬP NHẬT: TRƯỜNG TRÊN XÃ DƯỚI -->
     <div id="reg-overlay" class="overlay">
         <div class="popup">
             <span class="close-btn" onclick="this.parentElement.parentElement.style.display='none'">&times;</span>
             <h2 style="color:#002855; text-align:center; margin-bottom:25px;">ĐĂNG KÝ DỰ THI</h2>
             <input type="text" id="u-name" class="form-control" placeholder="Họ và Tên">
             <input type="text" id="u-class" class="form-control" placeholder="Lớp (Ví dụ: 8A, 5B...)">
-            <!-- THÊM Ô XÃ/PHƯỜNG VÀO ĐÂY -->
-            <input type="text" id="u-ward" class="form-control" placeholder="Xã / Phường">
+            
+            <!-- ĐÃ ĐẢO: TRƯỜNG LÊN TRƯỚC -->
             <input type="text" id="u-school" class="form-control" placeholder="Trường / Đơn vị">
+            
+            <!-- XÃ/PHƯỜNG XUỐNG DƯỚI -->
+            <input type="text" id="u-ward" class="form-control" placeholder="Xã / Phường">
+            
             <input type="text" id="u-city" class="form-control" placeholder="Tỉnh / Thành phố">
             <button class="btn-full" onclick="startExam(false)">VÀO THI NGAY</button>
         </div>
@@ -363,15 +371,17 @@
     </footer>
 
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycby7n3JyMUsbPBAw4MH8-FJ-rPWbamDN3hj5BIq0USzKYm5wUQl4pw7FtNoJFItj0YYG/exec"; 
+        const API_URL = "https://script.google.com/macros/s/AKfycbxQNTnc3YL4qoafoALmsqaewS82e0RIrx5-svUcTwXRpg99Ud9QuH_wvAvXAwPN4_Yk/exec"; 
+        const CERT_BG_URL = "https://lh3.googleusercontent.com/d/1HCIrAhA-wIkLi-JeMf7LcITm32RRVjQF";
+        const preloadedCert = new Image();
+        preloadedCert.crossOrigin = "Anonymous";
 
-        const fallbackQuestions = [
-            // (Ngân hàng câu hỏi của bạn đã được tích hợp sẵn trong file GS, client sẽ lấy từ đó)
-        ];
+        const fallbackQuestions = [];
 
         let questions = [], fullQuestionBank = [];
         let curIdx = 0, score = 0, userAns = null, userInfo = {}, isTrial = false;
         let chatCount = 0;
+        let startTime = 0; // BIẾN MỚI: ĐỂ TÍNH GIỜ
         const audio = document.getElementById("bg-audio");
         let musicStarted = false;
 
@@ -431,23 +441,25 @@
             } catch (e) { console.error(e); return null; }
         }
 
-        // TỐI ƯU LOAD TRANG: KHÔNG DÙNG AWAIT ĐỂ CHẶN MÀN HÌNH NỮA
         window.onload = function() {
+            preloadedCert.src = CERT_BG_URL;
+
             setTimeout(() => { 
                 document.getElementById('loader').style.opacity = '0';
                 setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 500);
-            }, 800); // Ẩn loader sau 0.8s để vào trang cho nhanh
+            }, 800); 
 
             document.fonts.load('400 110px "Great Vibes"');
             document.fonts.load('700 60px "Oswald"');
             
-            // Gọi API ngầm để lấy dữ liệu thống kê
             callAPI("getInitData").then(data => {
                 if (data) {
-                    // Logo được gắn cứng trong HTML để load nhanh hơn
                     if (data.examQuestions && data.examQuestions.length > 0) questions = data.examQuestions;
                     if (data.fullBank) fullQuestionBank = data.fullBank;
-                    if (data.stats) renderStats(data.stats);
+                    const safeStats = data.stats || { visits:0, schools:0, exams:0, top_cities:[], top_schools:[], top_students:[] };
+                    renderStats(safeStats);
+                } else {
+                    renderStats({ visits:0, schools:0, exams:0, top_cities:[], top_schools:[], top_students:[] });
                 }
             });
         };
@@ -496,64 +508,59 @@
         }
 
         function renderStats(d) {
-            document.getElementById('s-visits').innerText = d.visits.toLocaleString();
-            document.getElementById('s-schools').innerText = d.schools.toLocaleString();
-            document.getElementById('s-exams').innerText = d.exams.toLocaleString();
-            const topStudents = d.top_students.sort((a, b) => b.score - a.score);
+            document.getElementById('s-visits').innerText = (d.visits || 0).toLocaleString();
+            document.getElementById('s-schools').innerText = (d.schools || 0).toLocaleString();
+            document.getElementById('s-exams').innerText = (d.exams || 0).toLocaleString();
+            
+            const safeCities = Array.isArray(d.top_cities) ? d.top_cities : [];
+            const safeSchools = Array.isArray(d.top_schools) ? d.top_schools : [];
+            const safeStudents = Array.isArray(d.top_students) ? d.top_students : [];
+
+            // Backend đã sắp xếp sẵn theo điểm và thời gian, frontend chỉ việc hiển thị
+            const topStudents = safeStudents; 
+
             const fill = (id, arr, type) => { 
                 let h = ''; 
-                arr.forEach((i, idx) => {
-                    let rankClass = idx === 0 ? 'rank-1' : idx === 1 ? 'rank-2' : idx === 2 ? 'rank-3' : 'rank-other';
-                    h += `<tr class="${rankClass}"><td style="width:20px"><span class="rank-badge">#${idx+1}</span></td><td>${type=='stu'?i.name+'<br><small style="color:#777">'+i.school+'</small>':i.name}</td><td style="text-align:right;font-weight:bold">${type=='stu'?i.score+'/10':i.count}</td></tr>`;
-                }); 
-                document.getElementById(id).innerHTML = h || '<tr><td>Chưa có dữ liệu</td></tr>'; 
+                if (arr.length > 0) {
+                    arr.forEach((i, idx) => {
+                        let rankClass = idx === 0 ? 'rank-1' : idx === 1 ? 'rank-2' : idx === 2 ? 'rank-3' : 'rank-other';
+                        h += `<tr class="${rankClass}"><td style="width:20px"><span class="rank-badge">#${idx+1}</span></td><td>${type=='stu'?i.name+'<br><small style="color:#777">'+i.school+'</small>':i.name}</td><td style="text-align:right;font-weight:bold">${type=='stu'?i.score+'/10':i.count}</td></tr>`;
+                    });
+                }
+                document.getElementById(id).innerHTML = h || '<tr><td colspan="3" style="text-align:center; padding:15px; color:#999; font-style:italic">Đang cập nhật dữ liệu...</td></tr>'; 
             };
-            fill('t-cities', d.top_cities); fill('t-schools', d.top_schools); fill('t-students', topStudents, 'stu');
+            
+            fill('t-cities', safeCities); 
+            fill('t-schools', safeSchools); 
+            fill('t-students', topStudents, 'stu');
         }
 
         function startTrial() { startExam(true); }
 
-        // --- HÀM CHUẨN HÓA DỮ LIỆU RIÊNG LẺ ---
-        function cleanName(str) {
-            return str.toLowerCase().split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-        }
-        
+        function cleanName(str) { return str.toLowerCase().split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '); }
         function cleanClass(str) {
-            // Lấy số lớp và ký tự lớp, xử lý cả trường hợp chỉ có số hoặc chỉ có chữ
             let numMatch = str.match(/\d+/);
-            let num = numMatch ? parseInt(numMatch[0]) : 0; // Nếu không tìm thấy số, mặc định là 0
+            let num = numMatch ? parseInt(numMatch[0]) : 0; 
             let char = str.replace(/[^a-zA-Z]/g, "").toUpperCase(); 
-            
-            // Nếu classNum là 0 và không có char (chỉ nhập số hoặc chữ), trả về đúng định dạng
-            if (num === 0 && char === "") return "Lớp Không rõ"; // Xử lý trường hợp nhập linh tinh
-            if (num === 0) return `Lớp ${char}`; // Ví dụ: nhập "A" -> "Lớp A"
-            if (char === "") return `Lớp ${num}`; // Ví dụ: nhập "8" -> "Lớp 8"
-
-            return `Lớp ${num}${char}`; // Ví dụ: "8a" -> "Lớp 8A"
+            if (num === 0 && char === "") return "Lớp Không rõ"; 
+            if (num === 0) return `Lớp ${char}`; 
+            if (char === "") return `Lớp ${num}`; 
+            return `Lớp ${num}${char}`; 
         }
-        
-        function cleanWard(str) { // Hàm mới để làm sạch Xã/Phường
-             return str.trim().replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); }).replace(/\s+/g, ' ');
-        }
-
+        function cleanWard(str) { return str.trim().replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); }).replace(/\s+/g, ' '); }
         function cleanSchool(str, clsStr) {
             let classNum = parseInt(clsStr.match(/\d+/) ? clsStr.match(/\d+/)[0] : "0");
             let prefix = "Trường";
             if (classNum >= 1 && classNum <= 5) prefix = "Trường Tiểu học";
             else if (classNum >= 6 && classNum <= 9) prefix = "Trường THCS";
             else if (classNum >= 10 && classNum <= 12) prefix = "Trường THPT";
-
             let clean = str.toLowerCase();
             const removeWords = ["trường", "tiểu học", "thcs", "thpt", "th ", "cấp 1", "cấp 2", "cấp 3"];
-            removeWords.forEach(word => {
-                let re = new RegExp(`\\b${word}\\b`, 'gi'); 
-                clean = clean.replace(re, "");
-            });
+            removeWords.forEach(word => { let re = new RegExp(`\\b${word}\\b`, 'gi'); clean = clean.replace(re, ""); });
             clean = clean.trim().replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
             clean = clean.replace(/\s+/g, ' '); 
             return `${prefix} ${clean}`;
         }
-        
         function cleanCity(str) {
             let clean = str.toLowerCase().trim();
             const mapAbbr = { "tphcm": "hồ chí minh", "hcm": "hồ chí minh", "hn": "hà nội", "hp": "hải phòng", "đn": "đà nẵng" };
@@ -569,27 +576,24 @@
             if (!trial) {
                 const nameIn = document.getElementById('u-name').value;
                 const classIn = document.getElementById('u-class').value;
-                const wardIn = document.getElementById('u-ward').value; // LẤY GIÁ TRỊ Ô XÃ/PHƯỜNG
+                const wardIn = document.getElementById('u-ward').value; 
                 const schoolIn = document.getElementById('u-school').value;
                 const cityIn = document.getElementById('u-city').value;
                 
-                // Kiểm tra đủ thông tin
                 if (!nameIn || !classIn || !wardIn || !schoolIn || !cityIn) {
-                    alert("Vui lòng điền đủ: Họ tên, Lớp, Xã/Phường, Trường, Tỉnh/TP");
+                    alert("Vui lòng điền đủ: Họ tên, Lớp, Trường, Xã/Phường, Tỉnh/TP");
                     return;
                 }
                 
-                // Chuẩn hóa và lưu thông tin
                 userInfo = { 
                     name: cleanName(nameIn), 
                     userClass: cleanClass(classIn),
-                    ward: cleanWard(wardIn), // Chuẩn hóa Xã/Phường
+                    ward: cleanWard(wardIn), 
                     school: cleanSchool(schoolIn, classIn), 
                     city: cleanCity(cityIn)
                 };
             }
             
-            // Dùng câu hỏi dự phòng ngay nếu API chưa load xong
             if (fullQuestionBank.length > 0) {
                 questions = fullQuestionBank.sort(() => 0.5 - Math.random()).slice(0, 10);
             } else if (questions.length === 0) {
@@ -597,6 +601,10 @@
             }
             
             isTrial = trial; score = 0; curIdx = 0; chatCount = 0;
+            
+            // BẮT ĐẦU TÍNH GIỜ
+            startTime = new Date().getTime(); 
+
             document.getElementById('landing-page').style.display = 'none';
             document.getElementById('reg-overlay').style.display = 'none';
             document.getElementById('quiz-view').style.display = 'block';
@@ -631,8 +639,13 @@
                 document.getElementById('quiz-view').style.display = 'none';
                 document.getElementById('chatbot-widget').style.display = 'none'; 
                 document.getElementById('loader').style.display = 'flex';
-                // GỬI userInfo ĐÃ ĐƯỢC CHUẨN HÓA LÊN SERVER
-                if (!isTrial) await callAPI("submit", { ...userInfo, score });
+                
+                // TÍNH THỜI GIAN LÀM BÀI ĐỂ GỬI LÊN SERVER (TIE-BREAKER)
+                var endTime = new Date().getTime();
+                var duration = Math.floor((endTime - startTime) / 1000); // Đơn vị giây
+
+                if (!isTrial) await callAPI("submit", { ...userInfo, score: score, duration: duration });
+                
                 setTimeout(() => {
                     document.getElementById('loader').style.display = 'none';
                     document.getElementById('result-view').style.display = 'block';
@@ -642,7 +655,6 @@
                     } else { 
                         let finalRank = "CHƯA ĐẠT";
                         let message = "";
-
                         if (score >= 8) {
                             if (chatCount > 3) {
                                 finalRank = "HOÀN THÀNH";
@@ -657,7 +669,6 @@
                         } else {
                             message = `<h3 style="color:red">Chưa đạt yêu cầu nhận chứng nhận.</h3>`;
                         }
-
                         document.getElementById('msg-txt').innerHTML = message;
                         if (finalRank !== "CHƯA ĐẠT") drawCert(finalRank);
                     }
@@ -665,27 +676,20 @@
             }
         }
 
-        // HÀM VẼ CHỨNG NHẬN: CHỈ HIỂN THỊ TÊN, TRƯỜNG, TỈNH
         function drawCert(rank) {
-            const certUrl = "https://lh3.googleusercontent.com/d/1HCIrAhA-wIkLi-JeMf7LcITm32RRVjQF";
             const canvas = document.getElementById('certCanvas');
             const ctx = canvas.getContext('2d');
-            const img = new Image();
-
-            img.crossOrigin = "Anonymous";
-            img.src = certUrl + "?v=" + new Date().getTime();
-
-            img.onload = async () => {
-                canvas.width = img.naturalWidth; 
-                canvas.height = img.naturalHeight;
-                ctx.drawImage(img, 0, 0); 
+            
+            const paintContent = async () => {
+                canvas.width = preloadedCert.naturalWidth; 
+                canvas.height = preloadedCert.naturalHeight;
+                ctx.drawImage(preloadedCert, 0, 0); 
                 const w = canvas.width; const h = canvas.height;
                 
-                // TÊN HỌC SINH
                 try { await document.fonts.load('400 100px "Great Vibes"', userInfo.name); } catch(e) {}
                 ctx.textAlign = 'center';
                 ctx.font = "400 100px 'Great Vibes'"; 
-                ctx.fillStyle = '#d32f2f'; // ĐỎ
+                ctx.fillStyle = '#d32f2f'; 
                 ctx.fillText(userInfo.name, w / 2, h * 0.42);
 
                 const textWidth = ctx.measureText(userInfo.name).width;
@@ -696,29 +700,23 @@
                 ctx.beginPath(); ctx.arc(w/2 - textWidth/2 - 20, h * 0.43 + 20, 5, 0, Math.PI*2); ctx.fill();
                 ctx.beginPath(); ctx.arc(w/2 + textWidth/2 + 20, h * 0.43 + 20, 5, 0, Math.PI*2); ctx.fill();
 
-                // TRƯỜNG LỚP VÀ TỈNH/TP (ĐÃ CHUẨN HÓA)
                 try { await document.fonts.load('700 35px "Roboto"'); } catch(e) {}
                 ctx.font = "700 35px 'Roboto'"; 
                 ctx.fillStyle = '#002855'; 
-                
-                // Chuỗi thông tin đầy đủ đã chuẩn hóa
                 const fullInfoStr = `${userInfo.userClass} – ${userInfo.school} – ${userInfo.city}`;
                 ctx.fillText(fullInfoStr, w / 2, h * 0.50);
                 
-                // NỘI DUNG CHỨNG NHẬN
                 ctx.font = "400 35px 'Roboto'";
                 const resultText = `Đã hoàn thành ${rank === "XUẤT SẮC" ? "xuất sắc" : ""} cuộc thi trực tuyến "Em yêu biển, đảo quê hương"`;
                 ctx.fillStyle = '#002855'; 
                 ctx.fillText(resultText, w / 2, h * 0.55);
                 ctx.fillText("do Đoàn thanh niên cộng sản Hồ Chí Minh, Hành trình số Việt Nam My Love phối hợp tổ chức", w / 2, h * 0.59);
 
-                // Xuất ảnh hoặc canvas
                 try {
                     const url = canvas.toDataURL("image/png");
                     const finalImg = document.getElementById('cert-final');
                     finalImg.src = url;
                     finalImg.style.display = 'block';
-                    
                     const btn = document.getElementById('down-btn'); 
                     btn.href = url; 
                     btn.download = `ChungNhan_${userInfo.name.replace(/\s+/g, '_')}.png`; 
@@ -728,7 +726,12 @@
                     document.getElementById('msg-txt').innerHTML += "<br><span style='color:#e65100; font-size:0.9rem'>Lưu ý: Vui lòng Chụp màn hình để lưu chứng nhận.</span>";
                 }
             };
-            img.onerror = () => { alert("Không thể tải khung chứng nhận."); };
+
+            if (preloadedCert.complete && preloadedCert.naturalHeight !== 0) {
+                paintContent();
+            } else {
+                preloadedCert.onload = paintContent;
+            }
         }
     </script>
 </body>
