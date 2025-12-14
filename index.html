@@ -21,8 +21,7 @@
         }
         body { font-family: 'Roboto', sans-serif; margin: 0; padding: 0; background: var(--bg-gray); color: var(--text-dark); display: flex; flex-direction: column; min-height: 100vh; }
         
-        /* PRELOAD FONT */
-        #font-preload { font-family: 'Oswald', sans-serif; font-weight: 700; opacity: 0; position: absolute; z-index: -1; pointer-events: none; }
+        #font-preload { font-family: 'Oswald', sans-serif; opacity: 0; position: absolute; z-index: -1; pointer-events: none; }
         #font-preload-2 { font-family: 'Great Vibes', cursive; opacity: 0; position: absolute; z-index: -1; pointer-events: none; }
 
         /* MÀN HÌNH CHÀO */
@@ -63,7 +62,6 @@
         }
         @keyframes pulseBtn { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(253, 216, 53, 0.7); } 70% { transform: scale(1.05); box-shadow: 0 0 0 25px rgba(253, 216, 53, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(253, 216, 53, 0); } }
 
-        /* HEADER */
         header { 
             padding: 12px 5%; display: flex; justify-content: space-between; align-items: center; 
             background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
@@ -74,7 +72,6 @@
         .logo-text h1 { margin: 0; color: #002855; font-size: 1.2rem; font-weight: 900; text-transform: uppercase; }
         .nav-right { display: flex; align-items: center; gap: 15px; }
         .nav-link { text-decoration: none; color: #002855; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 0.95rem; transition:0.3s; }
-        .nav-link:hover { color: var(--blue-sea); }
         .btn-header { background: var(--yellow); border: none; padding: 10px 25px; border-radius: 30px; font-weight: 900; cursor: pointer; box-shadow: 0 4px #fbc02d; color: var(--primary); transition: 0.2s; font-family: 'Roboto', sans-serif; }
         .btn-header:active { transform: translateY(2px); box-shadow: 0 2px #fbc02d; }
         
@@ -82,7 +79,6 @@
         #music-btn.playing { background: var(--blue-sea); color: white; animation: rotateMusic 4s infinite linear; }
         @keyframes rotateMusic { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* HERO */
         #hero { background: linear-gradient(135deg, #0288d1 0%, #01579b 100%); padding: 50px 20px 120px; text-align: center; color: white; position: relative; overflow: hidden; }
         .hero-logos { display: flex; justify-content: center; gap: 20px; margin-bottom: 25px; align-items: center; }
         .hero-logo-img { height: 110px; object-fit: contain; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3)); }
@@ -95,7 +91,6 @@
         .wave-bottom { position: absolute; bottom: -1px; left: 0; width: 100%; line-height: 0; }
         .wave-bottom svg { width: 100%; height: 90px; fill: #f4f7f6; }
 
-        /* CARDS & STATS */
         .cards-section { padding: 0 20px; margin-top: -60px; position: relative; z-index: 2; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
         .info-card { background: #fff; width: 240px; padding: 20px 15px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center; border-top: 4px solid transparent; transition: transform 0.3s; }
         .info-card.blue-theme { border-top-color: #1565c0; }
@@ -121,14 +116,12 @@
         .rank-3 .rank-badge { background: #CD7F32; color: #fff; } 
         .rank-other .rank-badge { background: #e3f2fd; color: #002855; }
 
-        /* QUIZ VIEW */
         #quiz-view { display: none; max-width: 900px; margin: 40px auto; padding: 0; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); background: url('https://drive.google.com/uc?export=download&id=1AxwtzPQkPPSupZZ6_rGTo1zneI0ualy2') no-repeat center center; background-size: cover; overflow: hidden; position: relative; min-height: 550px; }
         .quiz-glass-panel { background: rgba(255, 255, 255, 0.93); backdrop-filter: blur(10px); margin: 30px; padding: 30px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0, 40, 85, 0.2); border: 1px solid rgba(255, 255, 255, 0.6); }
         .option-btn { display: block; width: 100%; text-align: left; padding: 15px 20px; margin-bottom: 12px; border: 2px solid #eef2f5; border-radius: 12px; cursor: pointer; transition: all 0.25s ease; background: #fff; font-size: 1.05rem; color: #444; font-weight: 500; }
         .option-btn:hover { background: #f0f9ff; border-color: #0091ea; transform: translateX(5px); }
         .option-btn.selected { background: #002855; color: white; border-color: #002855; box-shadow: 0 5px 15px rgba(0, 40, 85, 0.3); }
 
-        /* CHATBOT */
         #chatbot-widget { position: fixed; bottom: 30px; right: 30px; z-index: 3000; display: none; }
         #chat-toggle { width: 85px; height: 85px; border-radius: 50%; background: #fff; box-shadow: 0 5px 25px rgba(0,0,0,0.4); cursor: pointer; border: 4px solid #fff; overflow: hidden; transition: transform 0.3s; }
         #chat-toggle:hover { transform: scale(1.1); }
@@ -145,7 +138,6 @@
         .chat-input { flex: 1; padding: 10px 15px; border: 1px solid #ddd; border-radius: 25px; outline: none; }
         .chat-btn { background: #002855; color: white; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; font-size: 0.9rem; }
         
-        /* OVERLAYS & POPUP */
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 999; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .popup { background: #fff; padding: 30px; width: 90%; max-width: 900px; border-radius: 20px; position: relative; animation: slideIn 0.3s; max-height: 85vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.4); }
         @keyframes slideIn { from {transform: translateY(-20px); opacity: 0;} to {transform: translateY(0); opacity: 1;} }
@@ -162,13 +154,11 @@
         .form-control { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
         .btn-full { width: 100%; background: #002855; color: white; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
         
-        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 2000; display: flex; justify-content: center; align-items: center; }
+        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 2000; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s; }
         #result-view { display: none; max-width: 800px; margin: 40px auto; padding: 30px; background: #fff; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
-        /* Ẩn canvas mặc định, chỉ hiện khi cần fallback */
         canvas { display: none; width: 100%; height: auto; border: 5px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.2); margin-top: 20px; }
         #cert-final { width: 100%; border: 5px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.2); margin-top: 20px; display: none; }
 
-        /* FOOTER */
         footer { background: #001a38; color: white; padding: 30px 20px; text-align: center; margin-top: auto; border-top: 5px solid #fdd835; }
         .footer-content { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; align-items: center; }
         .footer-content p { margin: 0; font-size: 0.9rem; opacity: 0.9; }
@@ -190,11 +180,12 @@
 </head>
 <body>
 
-    <div id="font-preload">ĐINH MINH KHANG - TEST FONT Ư Ơ Á Ị</div>
+    <div id="font-preload">TEST FONT Ư Ơ Á Ị</div>
     <div id="font-preload-2">Nguyễn Văn A</div>
 
     <div id="welcome-screen">
         <div class="hero-logos">
+            <!-- GẮN LINK LOGO TRỰC TIẾP ĐỂ LOAD NHANH -->
             <img src="https://lh3.googleusercontent.com/d/1wkVL6p7qxWY6Ny6lFGcJlOZmurPWcbHt" alt="Logo 1" class="welcome-logo">
             <img src="https://lh3.googleusercontent.com/d/1AKL6--tLvgF13WgCasRSl6fKtCpP4LmL" alt="Logo 2" class="welcome-logo">
         </div>
@@ -211,7 +202,8 @@
 
     <header>
         <div class="logo-area" onclick="goHome()">
-            <img id="logo-img" src="" alt="Logo">
+            <!-- GẮN LOGO HEADER CỨNG ĐỂ KHÔNG BỊ TRẮNG TRANG -->
+            <img id="logo-img" src="https://lh3.googleusercontent.com/d/1wkVL6p7qxWY6Ny6lFGcJlOZmurPWcbHt" alt="Logo">
             <div class="logo-text"><h1>EM YÊU BIỂN ĐẢO</h1><span>QUÊ HƯƠNG</span></div>
         </div>
         <div class="nav-right">
@@ -272,7 +264,7 @@
                 <span class="chat-close" onclick="toggleChat()">&times;</span>
             </div>
             <div class="chat-body" id="chat-body">
-                <div class="msg msg-bot">Chào con! Cô là Bích. Cố gắng làm bài thật tốt nhé! ❤️</div>
+                <div class="msg msg-bot">Chào em! Cô là Bích. Cố gắng làm bài thật tốt nhé! ❤️</div>
             </div>
             <div class="chat-footer">
                 <input type="text" id="chat-input" class="chat-input" placeholder="Hỏi cô Bích..." onkeypress="handleChatKey(event)">
@@ -323,7 +315,6 @@
             <span class="close-btn" onclick="this.parentElement.parentElement.style.display='none'">&times;</span>
             <h2 style="color:#002855; text-align:center; margin-bottom:25px;">ĐĂNG KÝ DỰ THI</h2>
             <input type="text" id="u-name" class="form-control" placeholder="Họ và Tên">
-            <!-- ĐÃ THÊM Ô NHẬP LỚP -->
             <input type="text" id="u-class" class="form-control" placeholder="Lớp (Ví dụ: 8A, 5B...)">
             <input type="text" id="u-school" class="form-control" placeholder="Trường / Đơn vị">
             <input type="text" id="u-city" class="form-control" placeholder="Tỉnh / Thành phố">
@@ -373,7 +364,7 @@
     </footer>
 
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbyBXBPa-Y2lupBBN1EXrU-QgzYEQ1f-GMpFjxBjJx2eJqPU7LtCiRhy42V8XXI1rOMs/exec"; 
+        const API_URL = "https://script.google.com/macros/s/AKfycbwCe_lfyAdpBGiDXARFavHqRTp6GevBQZSfsxidYYll6I3269pJutSepg4KhRN3r5N7/exec"; 
 
         const fallbackQuestions = [
             { q: "Quần đảo Hoàng Sa thuộc tỉnh/thành phố nào của Việt Nam?", a: 0, opts: ["Đà Nẵng", "Khánh Hòa", "Quảng Ngãi", "Phú Yên"] },
@@ -389,7 +380,7 @@
         ];
 
         let questions = [], fullQuestionBank = [];
-        let curIdx = 0, score = 0, userAns = null, bgCertSrc = "", userInfo = {}, isTrial = false;
+        let curIdx = 0, score = 0, userAns = null, userInfo = {}, isTrial = false;
         let chatCount = 0;
         const audio = document.getElementById("bg-audio");
         let musicStarted = false;
@@ -450,6 +441,26 @@
             } catch (e) { console.error(e); return null; }
         }
 
+        // TỐI ƯU LOAD TRANG: KHÔNG DÙNG AWAIT ĐỂ CHẶN MÀN HÌNH NỮA
+        window.onload = function() {
+            setTimeout(() => { 
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 500);
+            }, 800); // Ẩn loader sau 0.8s để vào trang cho nhanh
+
+            document.fonts.load('400 110px "Great Vibes"');
+            document.fonts.load('700 60px "Oswald"');
+            
+            // Gọi API ngầm để lấy dữ liệu thống kê
+            callAPI("getInitData").then(data => {
+                if (data) {
+                    if (data.examQuestions && data.examQuestions.length > 0) questions = data.examQuestions;
+                    if (data.fullBank) fullQuestionBank = data.fullBank;
+                    if (data.stats) renderStats(data.stats);
+                }
+            });
+        };
+
         function toggleChat() { const win = document.getElementById('chat-window'); win.style.display = (win.style.display === 'flex') ? 'none' : 'flex'; }
         function handleChatKey(e) { if (e.key === 'Enter') sendChat(); }
         function sendChat() { 
@@ -471,7 +482,7 @@
         function findSmartAnswer(query) {
             const normalizedQuery = query.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
             if (normalizedQuery.includes("chao") || normalizedQuery == "hi") return { text: "Chào em! Cô là Bích. Em cần cô giúp gì không?" };
-            if (normalizedQuery.includes("cam on")) return { text: "Không có chi con nhé! Cố gắng học tốt nha." };
+            if (normalizedQuery.includes("cam on")) return { text: "Không có chi em nhé! Cố gắng học tốt nha." };
             let bestMatch = null, maxScore = 0;
             const sourceData = fullQuestionBank.length > 0 ? fullQuestionBank : (questions.length > 0 ? questions : fallbackQuestions);
             for (const item of sourceData) {
@@ -484,28 +495,14 @@
             if (bestMatch && maxScore >= 2) { 
                 const correctAns = bestMatch.opts[bestMatch.a];
                 let explanation = bestMatch.expl ? bestMatch.expl : "Kiến thức này rất quan trọng, em nhớ kỹ nhé.";
-                const praises = ["Câu hỏi rất hay!", "Mỗi câu em nhờ trợ giúp, hệ thống sẽ ghi nhớ tự động, em sẽ chỉ nhận được chứng nhận hoàn thành dù điểm cao!", "Cô rất khen ngợi tinh thần học tập của em!", "Câu hỏi rất thú vị!", "Đây là một câu hỏi hay về biển, đảo quê hương", "Cô sẽ hỗ trợ em câu hỏi này!", "Số lần trợ giúp trên 3 lần thì em sẽ chỉ được chứng nhận hoàn thành nhé!"];
+                const praises = ["Câu hỏi rất hay!", "Cô rất khen ngợi tinh thần học tập của em!", "Đây là một câu hỏi hay về biển, đảo quê hương", "Cô sẽ hỗ trợ em câu hỏi này!"];
                 const randomPraise = praises[Math.floor(Math.random() * praises.length)];
-                const html = `<b>Cô Bích:</b> ${randomPraise}<br><br>✅ <b>Đáp án:</b> <span style="color:#0091ea; font-weight:bold">${correctAns}</span><br><br>📖 <b>Kiến thức:</b> ${explanation}<br><br>"Cô sẽ luôn đồng hành hỗ trợ em, chúng ta đến với câu hỏi tiếp theo nào!" 💪`;
+                const html = `<b>Cô Bích:</b> ${randomPraise}<br><br>✅ <b>Đáp án:</b> <span style="color:#0091ea; font-weight:bold">${correctAns}</span><br><br>📖 <b>Kiến thức:</b> ${explanation}<br><br>"Cô sẽ luôn đồng hành hỗ trợ em, chúng ta với câu hỏi tiếp theo nào!" 💪`;
                 return { text: html };
             } else { 
                 return { text: "<b>Cô Bích:</b> Câu này cô chưa tìm thấy trong ngân hàng đề. Em thử kiểm tra lại chính tả xem sao nhé." }; 
             }
         }
-
-        window.onload = async function() {
-            setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 1000); 
-            document.fonts.load('400 110px "Great Vibes"');
-            document.fonts.load('700 60px "Oswald"');
-            
-            const data = await callAPI("getInitData");
-            if (data) {
-                if (data.logo) document.getElementById('logo-img').src = data.logo;
-                if (data.examQuestions) questions = data.examQuestions;
-                if (data.fullBank) fullQuestionBank = data.fullBank;
-                if (data.stats) renderStats(data.stats);
-            }
-        };
 
         function renderStats(d) {
             document.getElementById('s-visits').innerText = d.visits.toLocaleString();
@@ -525,22 +522,65 @@
 
         function startTrial() { startExam(true); }
 
+        // --- CÁC HÀM XỬ LÝ CHUẨN HÓA DỮ LIỆU RIÊNG LẺ ---
+        function cleanName(str) {
+            return str.toLowerCase().split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        }
+        
+        function cleanClass(str) {
+            let num = parseInt(str.match(/\d+/) ? str.match(/\d+/)[0] : "0");
+            let char = str.replace(/[^a-zA-Z]/g, "").toUpperCase(); 
+            return `Lớp ${num}${char}`;
+        }
+        
+        function cleanSchool(str, clsStr) {
+            let classNum = parseInt(clsStr.match(/\d+/) ? clsStr.match(/\d+/)[0] : "0");
+            let prefix = "Trường";
+            if (classNum >= 1 && classNum <= 5) prefix = "Trường Tiểu học";
+            else if (classNum >= 6 && classNum <= 9) prefix = "Trường THCS";
+            else if (classNum >= 10 && classNum <= 12) prefix = "Trường THPT";
+
+            let clean = str.toLowerCase();
+            const removeWords = ["trường", "tiểu học", "thcs", "thpt", "th ", "cấp 1", "cấp 2", "cấp 3"];
+            removeWords.forEach(word => {
+                let re = new RegExp(`\\b${word}\\b`, 'gi'); 
+                clean = clean.replace(re, "");
+            });
+            clean = clean.trim().replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+            clean = clean.replace(/\s+/g, ' '); 
+            return `${prefix} ${clean}`;
+        }
+        
+        function cleanCity(str) {
+            let clean = str.toLowerCase().trim();
+            const mapAbbr = { "tphcm": "hồ chí minh", "hcm": "hồ chí minh", "hn": "hà nội", "hp": "hải phòng", "đn": "đà nẵng" };
+            if (mapAbbr[clean]) clean = mapAbbr[clean];
+            clean = clean.replace(/^(tỉnh|thành phố|tp)\s+/, "");
+            const centralCities = ["hà nội", "hồ chí minh", "hải phòng", "đà nẵng", "cần thơ"];
+            let prefix = centralCities.includes(clean) ? "Thành phố" : "Tỉnh";
+            clean = clean.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+            return `${prefix} ${clean}`;
+        }
+
         function startExam(trial) {
             if (!trial) {
-                const name = document.getElementById('u-name').value;
-                const userClass = document.getElementById('u-class').value; // LẤY LỚP
-                const school = document.getElementById('u-school').value;
-                const city = document.getElementById('u-city').value;
+                const nameIn = document.getElementById('u-name').value;
+                const classIn = document.getElementById('u-class').value;
+                const schoolIn = document.getElementById('u-school').value;
+                const cityIn = document.getElementById('u-city').value;
                 
-                // KIỂM TRA NHẬP LIỆU
-                if (!name || !userClass || !school || !city) return alert("Vui lòng điền đủ: Họ tên, Lớp, Trường, Tỉnh/TP");
+                if (!nameIn || !classIn || !schoolIn || !cityIn) return alert("Vui lòng điền đủ: Họ tên, Lớp, Trường, Tỉnh/TP");
                 
-                let formattedName = name.toLowerCase().split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                
-                // LƯU THÔNG TIN
-                userInfo = { name: formattedName, school, city, userClass };
+                // CHUẨN HÓA DỮ LIỆU NGAY TẠI ĐÂY TRƯỚC KHI LƯU
+                userInfo = { 
+                    name: cleanName(nameIn), 
+                    userClass: cleanClass(classIn),
+                    school: cleanSchool(schoolIn, classIn), 
+                    city: cleanCity(cityIn)
+                };
             }
             
+            // Dùng câu hỏi dự phòng ngay nếu API chưa load xong
             if (fullQuestionBank.length > 0) {
                 questions = fullQuestionBank.sort(() => 0.5 - Math.random()).slice(0, 10);
             } else if (questions.length === 0) {
@@ -582,6 +622,7 @@
                 document.getElementById('quiz-view').style.display = 'none';
                 document.getElementById('chatbot-widget').style.display = 'none'; 
                 document.getElementById('loader').style.display = 'flex';
+                // GỬI userInfo ĐÃ ĐƯỢC CHUẨN HÓA LÊN SERVER
                 if (!isTrial) await callAPI("submit", { ...userInfo, score });
                 setTimeout(() => {
                     document.getElementById('loader').style.display = 'none';
@@ -615,43 +656,6 @@
             }
         }
 
-        // --- HÀM CHUẨN HÓA DỮ LIỆU ĐỂ IN CHỨNG NHẬN ---
-        function chuanHoaDuLieu(inputClass, inputSchool, inputProvince) {
-            // A. XỬ LÝ LỚP
-            let classNum = parseInt(inputClass.match(/\d+/) ? inputClass.match(/\d+/)[0] : "0");
-            let classChar = inputClass.replace(/[^a-zA-Z]/g, "").toUpperCase(); 
-            let finalClass = `Lớp ${classNum}${classChar}`;
-
-            // B. XỬ LÝ TRƯỜNG
-            let schoolPrefix = "Trường";
-            if (classNum >= 1 && classNum <= 5) schoolPrefix = "Trường Tiểu học";
-            else if (classNum >= 6 && classNum <= 9) schoolPrefix = "Trường THCS";
-            else if (classNum >= 10 && classNum <= 12) schoolPrefix = "Trường THPT";
-
-            let cleanSchool = inputSchool.toLowerCase();
-            const removeWords = ["trường", "tiểu học", "thcs", "thpt", "th ", "cấp 1", "cấp 2", "cấp 3"];
-            removeWords.forEach(word => {
-                let re = new RegExp(`\\b${word}\\b`, 'gi'); 
-                cleanSchool = cleanSchool.replace(re, "");
-            });
-            cleanSchool = cleanSchool.trim().replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
-            cleanSchool = cleanSchool.replace(/\s+/g, ' '); 
-            let finalSchool = `${schoolPrefix} ${cleanSchool}`;
-
-            // C. XỬ LÝ TỈNH/THÀNH
-            let cleanProv = inputProvince.toLowerCase().trim();
-            const mapAbbr = { "tphcm": "hồ chí minh", "hcm": "hồ chí minh", "hn": "hà nội", "hp": "hải phòng", "đn": "đà nẵng" };
-            if (mapAbbr[cleanProv]) cleanProv = mapAbbr[cleanProv];
-            cleanProv = cleanProv.replace(/^(tỉnh|thành phố|tp)\s+/, "");
-
-            const centralCities = ["hà nội", "hồ chí minh", "hải phòng", "đà nẵng", "cần thơ"];
-            let provPrefix = centralCities.includes(cleanProv) ? "Thành phố" : "Tỉnh";
-            cleanProv = cleanProv.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
-            let finalProv = `${provPrefix} ${cleanProv}`;
-
-            return `${finalClass} – ${finalSchool} – ${finalProv}`;
-        }
-
         function drawCert(rank) {
             const certUrl = "https://lh3.googleusercontent.com/d/1HCIrAhA-wIkLi-JeMf7LcITm32RRVjQF";
             const canvas = document.getElementById('certCanvas');
@@ -670,7 +674,6 @@
                 try { await document.fonts.load('400 100px "Great Vibes"', userInfo.name); } catch(e) {}
                 ctx.textAlign = 'center';
                 
-                // TÊN HỌC SINH
                 ctx.font = "400 100px 'Great Vibes'"; 
                 ctx.fillStyle = '#d32f2f'; // ĐỎ
                 ctx.fillText(userInfo.name, w / 2, h * 0.42);
@@ -683,16 +686,14 @@
                 ctx.beginPath(); ctx.arc(w/2 - textWidth/2 - 20, h * 0.43 + 20, 5, 0, Math.PI*2); ctx.fill();
                 ctx.beginPath(); ctx.arc(w/2 + textWidth/2 + 20, h * 0.43 + 20, 5, 0, Math.PI*2); ctx.fill();
 
-                // TRƯỜNG LỚP (SỬ DỤNG HÀM CHUẨN HÓA MỚI)
+                // TRƯỜNG LỚP (DỮ LIỆU ĐÃ ĐƯỢC CHUẨN HÓA TRƯỚC KHI THI RỒI)
                 try { await document.fonts.load('700 35px "Roboto"'); } catch(e) {}
                 ctx.font = "700 35px 'Roboto'"; 
                 ctx.fillStyle = '#002855'; 
                 
-                // GỌI HÀM CHUẨN HÓA Ở ĐÂY
-                const fullInfoStr = chuanHoaDuLieu(userInfo.userClass, userInfo.school, userInfo.city);
+                const fullInfoStr = `${userInfo.userClass} – ${userInfo.school} – ${userInfo.city}`;
                 ctx.fillText(fullInfoStr, w / 2, h * 0.50);
                 
-                // NỘI DUNG CHỨNG NHẬN
                 ctx.font = "400 35px 'Roboto'";
                 const resultText = `Đã hoàn thành ${rank === "XUẤT SẮC" ? "xuất sắc" : ""} cuộc thi trực tuyến "Em yêu biển, đảo quê hương"`;
                 ctx.fillStyle = '#002855'; 
