@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cuộc thi Em Yêu Biển Đảo Quê Hương</title>
     
-    <!-- LOAD FONT -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&subset=vietnamese&family=Dancing+Script:wght@700&family=Great+Vibes&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -185,7 +184,6 @@
 
     <div id="welcome-screen">
         <div class="hero-logos">
-            <!-- GẮN LINK LOGO TRỰC TIẾP ĐỂ LOAD NHANH -->
             <img src="https://lh3.googleusercontent.com/d/1wkVL6p7qxWY6Ny6lFGcJlOZmurPWcbHt" alt="Logo 1" class="welcome-logo">
             <img src="https://lh3.googleusercontent.com/d/1AKL6--tLvgF13WgCasRSl6fKtCpP4LmL" alt="Logo 2" class="welcome-logo">
         </div>
@@ -202,7 +200,6 @@
 
     <header>
         <div class="logo-area" onclick="goHome()">
-            <!-- GẮN LOGO HEADER CỨNG ĐỂ KHÔNG BỊ TRẮNG TRANG -->
             <img id="logo-img" src="https://lh3.googleusercontent.com/d/1wkVL6p7qxWY6Ny6lFGcJlOZmurPWcbHt" alt="Logo">
             <div class="logo-text"><h1>EM YÊU BIỂN ĐẢO</h1><span>QUÊ HƯƠNG</span></div>
         </div>
@@ -316,6 +313,8 @@
             <h2 style="color:#002855; text-align:center; margin-bottom:25px;">ĐĂNG KÝ DỰ THI</h2>
             <input type="text" id="u-name" class="form-control" placeholder="Họ và Tên">
             <input type="text" id="u-class" class="form-control" placeholder="Lớp (Ví dụ: 8A, 5B...)">
+            <!-- THÊM Ô XÃ/PHƯỜNG VÀO ĐÂY -->
+            <input type="text" id="u-ward" class="form-control" placeholder="Xã / Phường">
             <input type="text" id="u-school" class="form-control" placeholder="Trường / Đơn vị">
             <input type="text" id="u-city" class="form-control" placeholder="Tỉnh / Thành phố">
             <button class="btn-full" onclick="startExam(false)">VÀO THI NGAY</button>
@@ -364,19 +363,10 @@
     </footer>
 
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbwCe_lfyAdpBGiDXARFavHqRTp6GevBQZSfsxidYYll6I3269pJutSepg4KhRN3r5N7/exec"; 
+        const API_URL = "https://script.google.com/macros/s/AKfycby7n3JyMUsbPBAw4MH8-FJ-rPWbamDN3hj5BIq0USzKYm5wUQl4pw7FtNoJFItj0YYG/exec"; 
 
         const fallbackQuestions = [
-            { q: "Quần đảo Hoàng Sa thuộc tỉnh/thành phố nào của Việt Nam?", a: 0, opts: ["Đà Nẵng", "Khánh Hòa", "Quảng Ngãi", "Phú Yên"] },
-            { q: "Quần đảo Trường Sa thuộc tỉnh/thành phố nào của Việt Nam?", a: 1, opts: ["Đà Nẵng", "Khánh Hòa", "Vũng Tàu", "Bình Thuận"] },
-            { q: "Bờ biển Việt Nam dài khoảng bao nhiêu km?", a: 2, opts: ["2360 km", "3000 km", "3260 km", "3620 km"] },
-            { q: "Luật Biển Việt Nam được Quốc hội thông qua vào năm nào?", a: 1, opts: ["2010", "2012", "2014", "2016"] },
-            { q: "Cảnh sát biển Việt Nam là lực lượng chuyên trách của Nhà nước về?", a: 0, opts: ["Thực thi pháp luật trên biển", "Bảo vệ rừng", "Bảo vệ biên giới đất liền", "Phòng cháy chữa cháy"] },
-            { q: "Việt Nam có bao nhiêu tỉnh, thành phố giáp biển?", a: 1, opts: ["27", "28", "29", "30"] },
-            { q: "Huyện đảo Lý Sơn thuộc tỉnh nào?", a: 2, opts: ["Bình Định", "Phú Yên", "Quảng Ngãi", "Quảng Nam"] },
-            { q: "Đảo lớn nhất của Việt Nam là đảo nào?", a: 0, opts: ["Phú Quốc", "Cát Bà", "Côn Đảo", "Lý Sơn"] },
-            { q: "Ngày Đại dương thế giới là ngày nào?", a: 2, opts: ["05/6", "06/6", "08/6", "10/6"] },
-            { q: "Công ước Liên Hợp Quốc về Luật Biển (UNCLOS) được ký kết năm nào?", a: 1, opts: ["1972", "1982", "1992", "2002"] }
+            // (Ngân hàng câu hỏi của bạn đã được tích hợp sẵn trong file GS, client sẽ lấy từ đó)
         ];
 
         let questions = [], fullQuestionBank = [];
@@ -454,6 +444,7 @@
             // Gọi API ngầm để lấy dữ liệu thống kê
             callAPI("getInitData").then(data => {
                 if (data) {
+                    // Logo được gắn cứng trong HTML để load nhanh hơn
                     if (data.examQuestions && data.examQuestions.length > 0) questions = data.examQuestions;
                     if (data.fullBank) fullQuestionBank = data.fullBank;
                     if (data.stats) renderStats(data.stats);
@@ -481,7 +472,7 @@
         }
         function findSmartAnswer(query) {
             const normalizedQuery = query.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-            if (normalizedQuery.includes("chao") || normalizedQuery == "hi") return { text: "Chào em! Cô là Bích. Em cần cô giúp gì không?" };
+            if (normalizedQuery.includes("chao") || normalizedQuery == "hi") return { text: "Chào con! Cô là Bích. Em cần cô giúp gì không?" };
             if (normalizedQuery.includes("cam on")) return { text: "Không có chi em nhé! Cố gắng học tốt nha." };
             let bestMatch = null, maxScore = 0;
             const sourceData = fullQuestionBank.length > 0 ? fullQuestionBank : (questions.length > 0 ? questions : fallbackQuestions);
@@ -522,17 +513,29 @@
 
         function startTrial() { startExam(true); }
 
-        // --- CÁC HÀM XỬ LÝ CHUẨN HÓA DỮ LIỆU RIÊNG LẺ ---
+        // --- HÀM CHUẨN HÓA DỮ LIỆU RIÊNG LẺ ---
         function cleanName(str) {
             return str.toLowerCase().split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
         }
         
         function cleanClass(str) {
-            let num = parseInt(str.match(/\d+/) ? str.match(/\d+/)[0] : "0");
+            // Lấy số lớp và ký tự lớp, xử lý cả trường hợp chỉ có số hoặc chỉ có chữ
+            let numMatch = str.match(/\d+/);
+            let num = numMatch ? parseInt(numMatch[0]) : 0; // Nếu không tìm thấy số, mặc định là 0
             let char = str.replace(/[^a-zA-Z]/g, "").toUpperCase(); 
-            return `Lớp ${num}${char}`;
+            
+            // Nếu classNum là 0 và không có char (chỉ nhập số hoặc chữ), trả về đúng định dạng
+            if (num === 0 && char === "") return "Lớp Không rõ"; // Xử lý trường hợp nhập linh tinh
+            if (num === 0) return `Lớp ${char}`; // Ví dụ: nhập "A" -> "Lớp A"
+            if (char === "") return `Lớp ${num}`; // Ví dụ: nhập "8" -> "Lớp 8"
+
+            return `Lớp ${num}${char}`; // Ví dụ: "8a" -> "Lớp 8A"
         }
         
+        function cleanWard(str) { // Hàm mới để làm sạch Xã/Phường
+             return str.trim().replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); }).replace(/\s+/g, ' ');
+        }
+
         function cleanSchool(str, clsStr) {
             let classNum = parseInt(clsStr.match(/\d+/) ? clsStr.match(/\d+/)[0] : "0");
             let prefix = "Trường";
@@ -566,15 +569,21 @@
             if (!trial) {
                 const nameIn = document.getElementById('u-name').value;
                 const classIn = document.getElementById('u-class').value;
+                const wardIn = document.getElementById('u-ward').value; // LẤY GIÁ TRỊ Ô XÃ/PHƯỜNG
                 const schoolIn = document.getElementById('u-school').value;
                 const cityIn = document.getElementById('u-city').value;
                 
-                if (!nameIn || !classIn || !schoolIn || !cityIn) return alert("Vui lòng điền đủ: Họ tên, Lớp, Trường, Tỉnh/TP");
+                // Kiểm tra đủ thông tin
+                if (!nameIn || !classIn || !wardIn || !schoolIn || !cityIn) {
+                    alert("Vui lòng điền đủ: Họ tên, Lớp, Xã/Phường, Trường, Tỉnh/TP");
+                    return;
+                }
                 
-                // CHUẨN HÓA DỮ LIỆU NGAY TẠI ĐÂY TRƯỚC KHI LƯU
+                // Chuẩn hóa và lưu thông tin
                 userInfo = { 
                     name: cleanName(nameIn), 
                     userClass: cleanClass(classIn),
+                    ward: cleanWard(wardIn), // Chuẩn hóa Xã/Phường
                     school: cleanSchool(schoolIn, classIn), 
                     city: cleanCity(cityIn)
                 };
@@ -656,6 +665,7 @@
             }
         }
 
+        // HÀM VẼ CHỨNG NHẬN: CHỈ HIỂN THỊ TÊN, TRƯỜNG, TỈNH
         function drawCert(rank) {
             const certUrl = "https://lh3.googleusercontent.com/d/1HCIrAhA-wIkLi-JeMf7LcITm32RRVjQF";
             const canvas = document.getElementById('certCanvas');
@@ -671,9 +681,9 @@
                 ctx.drawImage(img, 0, 0); 
                 const w = canvas.width; const h = canvas.height;
                 
+                // TÊN HỌC SINH
                 try { await document.fonts.load('400 100px "Great Vibes"', userInfo.name); } catch(e) {}
                 ctx.textAlign = 'center';
-                
                 ctx.font = "400 100px 'Great Vibes'"; 
                 ctx.fillStyle = '#d32f2f'; // ĐỎ
                 ctx.fillText(userInfo.name, w / 2, h * 0.42);
@@ -686,25 +696,29 @@
                 ctx.beginPath(); ctx.arc(w/2 - textWidth/2 - 20, h * 0.43 + 20, 5, 0, Math.PI*2); ctx.fill();
                 ctx.beginPath(); ctx.arc(w/2 + textWidth/2 + 20, h * 0.43 + 20, 5, 0, Math.PI*2); ctx.fill();
 
-                // TRƯỜNG LỚP (DỮ LIỆU ĐÃ ĐƯỢC CHUẨN HÓA TRƯỚC KHI THI RỒI)
+                // TRƯỜNG LỚP VÀ TỈNH/TP (ĐÃ CHUẨN HÓA)
                 try { await document.fonts.load('700 35px "Roboto"'); } catch(e) {}
                 ctx.font = "700 35px 'Roboto'"; 
                 ctx.fillStyle = '#002855'; 
                 
+                // Chuỗi thông tin đầy đủ đã chuẩn hóa
                 const fullInfoStr = `${userInfo.userClass} – ${userInfo.school} – ${userInfo.city}`;
                 ctx.fillText(fullInfoStr, w / 2, h * 0.50);
                 
+                // NỘI DUNG CHỨNG NHẬN
                 ctx.font = "400 35px 'Roboto'";
                 const resultText = `Đã hoàn thành ${rank === "XUẤT SẮC" ? "xuất sắc" : ""} cuộc thi trực tuyến "Em yêu biển, đảo quê hương"`;
                 ctx.fillStyle = '#002855'; 
                 ctx.fillText(resultText, w / 2, h * 0.55);
                 ctx.fillText("do Đoàn thanh niên cộng sản Hồ Chí Minh, Hành trình số Việt Nam My Love phối hợp tổ chức", w / 2, h * 0.59);
 
+                // Xuất ảnh hoặc canvas
                 try {
                     const url = canvas.toDataURL("image/png");
                     const finalImg = document.getElementById('cert-final');
                     finalImg.src = url;
                     finalImg.style.display = 'block';
+                    
                     const btn = document.getElementById('down-btn'); 
                     btn.href = url; 
                     btn.download = `ChungNhan_${userInfo.name.replace(/\s+/g, '_')}.png`; 
