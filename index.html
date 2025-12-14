@@ -25,7 +25,7 @@
         #font-preload { font-family: 'Oswald', sans-serif; font-weight: 700; opacity: 0; position: absolute; z-index: -1; pointer-events: none; }
         #font-preload-2 { font-family: 'Great Vibes', cursive; opacity: 0; position: absolute; z-index: -1; pointer-events: none; }
 
-        /* --- MÀN HÌNH CHÀO (ĐÃ CHỈNH SỬA CÂN ĐỐI ĐẸP HƠN) --- */
+        /* MÀN HÌNH CHÀO */
         #welcome-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at center, #0288d1 0%, #003c8f 70%, #001a38 100%);
@@ -33,13 +33,10 @@
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             color: white; text-align: center;
             transition: opacity 0.5s ease, visibility 0.5s;
-            padding: 20px; /* Thêm padding để không bị sát lề mobile */
-            box-sizing: border-box;
+            padding: 20px; box-sizing: border-box;
         }
-        /* Logo to hơn và cân đối hơn */
         .welcome-logo { 
-            height: 160px; /* Tăng kích thước logo */
-            margin: 0 25px 30px 25px; 
+            height: 160px; margin: 0 25px 30px 25px; 
             filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5)); 
             transition: transform 0.3s; 
         }
@@ -47,30 +44,19 @@
         
         .welcome-title {
             font-family: 'Oswald', sans-serif; 
-            font-size: 3.8rem; /* Chữ to hơn chút */
-            font-weight: 900;
-            text-transform: uppercase; 
-            line-height: 1.2; 
-            margin-bottom: 15px; 
-            max-width: 1000px;
+            font-size: 3.8rem; font-weight: 900;
+            text-transform: uppercase; line-height: 1.2; margin-bottom: 15px; max-width: 1000px;
             background: linear-gradient(to bottom, #fff 10%, #fdd835 60%, #fbc02d 100%);
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6)); /* Đổ bóng chữ đậm đà hơn */
-            letter-spacing: 3px;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6)); letter-spacing: 3px;
         }
         .welcome-subtitle { 
-            font-size: 1.4rem; 
-            margin-bottom: 60px; /* Khoảng cách xuống nút bấm rộng hơn cho thoáng */
-            opacity: 0.95; 
-            font-weight: 300; 
-            letter-spacing: 1px;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            font-size: 1.4rem; margin-bottom: 60px; opacity: 0.95; 
+            font-weight: 300; letter-spacing: 1px; text-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
         .welcome-btn {
             background: linear-gradient(to right, #fdd835, #f57f17); color: #002855; 
-            padding: 18px 70px; /* Nút to hơn chút */
-            font-size: 1.9rem; font-weight: 900; border: none; border-radius: 60px; 
+            padding: 18px 70px; font-size: 1.9rem; font-weight: 900; border: none; border-radius: 60px; 
             cursor: pointer; box-shadow: 0 0 40px rgba(253, 216, 53, 0.5);
             animation: pulseBtn 2s infinite; text-transform: uppercase; font-family: 'Oswald', sans-serif;
             letter-spacing: 2px; border: 3px solid rgba(255,255,255,0.8);
@@ -142,21 +128,14 @@
         .option-btn:hover { background: #f0f9ff; border-color: #0091ea; transform: translateX(5px); }
         .option-btn.selected { background: #002855; color: white; border-color: #002855; box-shadow: 0 5px 15px rgba(0, 40, 85, 0.3); }
 
-        /* --- CHATBOT (CÔ BÍCH ĐÃ ĐƯỢC CHỈNH TO VÀ RÕ HƠN) --- */
+        /* CHATBOT */
         #chatbot-widget { position: fixed; bottom: 30px; right: 30px; z-index: 3000; display: none; }
-        #chat-toggle { 
-            width: 85px; height: 85px; /* TĂNG KÍCH THƯỚC TO HƠN */
-            border-radius: 50%; background: #fff; 
-            box-shadow: 0 5px 25px rgba(0,0,0,0.4); 
-            cursor: pointer; border: 4px solid #fff; 
-            overflow: hidden; transition: transform 0.3s; 
-        }
+        #chat-toggle { width: 85px; height: 85px; border-radius: 50%; background: #fff; box-shadow: 0 5px 25px rgba(0,0,0,0.4); cursor: pointer; border: 4px solid #fff; overflow: hidden; transition: transform 0.3s; }
         #chat-toggle:hover { transform: scale(1.1); }
         #chat-toggle img { width: 100%; height: 100%; object-fit: cover; }
-        
         #chat-window { display: none; position: absolute; bottom: 100px; right: 0; width: 350px; height: 480px; background: #fff; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); flex-direction: column; overflow: hidden; border: 1px solid #eee; }
         .chat-header { background: #002855; color: white; padding: 15px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
-        .chat-header img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid white; object-fit: cover; } /* Hình trong khung chat cũng to hơn chút */
+        .chat-header img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid white; object-fit: cover; }
         .chat-close { margin-left: auto; cursor: pointer; font-size: 1.2rem; }
         .chat-body { flex: 1; padding: 15px; overflow-y: auto; background: #f9fcff; display: flex; flex-direction: column; gap: 10px; }
         .msg { max-width: 85%; padding: 10px 15px; border-radius: 15px; font-size: 0.95rem; line-height: 1.5; word-wrap: break-word; }
@@ -219,13 +198,11 @@
             <img src="https://lh3.googleusercontent.com/d/1wkVL6p7qxWY6Ny6lFGcJlOZmurPWcbHt" alt="Logo 1" class="welcome-logo">
             <img src="https://lh3.googleusercontent.com/d/1AKL6--tLvgF13WgCasRSl6fKtCpP4LmL" alt="Logo 2" class="welcome-logo">
         </div>
-        <h1 class="welcome-title">CHÀO MỪNG ĐẾN VỚI CUỘC THI<br>EM YÊU BIỂN ĐẢO QUÊ HƯƠNG</h1>
+        <h1 class="welcome-title">CHÀO MỪNG BẠN ĐẾN VỚI CUỘC THI<br>EM YÊU BIỂN ĐẢO QUÊ HƯƠNG</h1>
         <p class="welcome-subtitle">Khơi dậy tình yêu biển đảo - Bảo vệ chủ quyền thiêng liêng của Tổ quốc</p>
-        <!-- NÚT NÀY SẼ KÍCH HOẠT NHẠC -->
         <button class="welcome-btn" onclick="enterSite()">BẤM ĐỂ VÀO THI</button>
     </div>
 
-    <!-- SỬA LINK NHẠC THÀNH DẠNG TẢI TRỰC TIẾP TỪ DOCS.GOOGLE.COM -->
     <audio id="bg-audio" loop preload="auto">
         <source src="https://docs.google.com/uc?export=download&id=1NXOxVD3ralb7zxVWJYtfs6HzVjObn4L-" type="audio/mp3">
     </audio>
@@ -287,7 +264,6 @@
         </div>
     </div>
 
-    <!-- CHATBOT WIDGET -->
     <div id="chatbot-widget">
         <div id="chat-window">
             <div class="chat-header">
@@ -303,13 +279,11 @@
                 <button class="chat-btn" onclick="sendChat()"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
-        <!-- ICON CÔ BÍCH ĐÃ ĐƯỢC LÀM TO RA -->
         <div id="chat-toggle" onclick="toggleChat()">
             <img src="https://lh3.googleusercontent.com/d/1ozaJRFGUjjIrAd4g54ZTdYLg5TWufo0h" alt="Chat">
         </div>
     </div>
 
-    <!-- POPUP GIỚI THIỆU -->
     <div id="intro-overlay" class="overlay">
         <div class="popup intro-content">
             <span class="close-btn" onclick="this.parentElement.parentElement.style.display='none'">&times;</span>
@@ -349,6 +323,8 @@
             <span class="close-btn" onclick="this.parentElement.parentElement.style.display='none'">&times;</span>
             <h2 style="color:#002855; text-align:center; margin-bottom:25px;">ĐĂNG KÝ DỰ THI</h2>
             <input type="text" id="u-name" class="form-control" placeholder="Họ và Tên">
+            <!-- ĐÃ THÊM Ô NHẬP LỚP -->
+            <input type="text" id="u-class" class="form-control" placeholder="Lớp (Ví dụ: 8A, 5B...)">
             <input type="text" id="u-school" class="form-control" placeholder="Trường / Đơn vị">
             <input type="text" id="u-city" class="form-control" placeholder="Tỉnh / Thành phố">
             <button class="btn-full" onclick="startExam(false)">VÀO THI NGAY</button>
@@ -370,11 +346,9 @@
     </div>
 
     <div id="result-view" style="text-align:center">
-        <!-- ĐÃ CẬP NHẬT TIÊU ĐỀ KẾT QUẢ -->
         <h2 style="color:#002855; font-size: 1.8rem; text-transform: uppercase;">CẢM ƠN EM ĐÃ THAM GIA<br>TÌM HIỂU VỀ BIỂN ĐẢO QUÊ HƯƠNG</h2>
         <p style="font-size:1.2rem; margin: 20px 0;">Em trả lời đúng <b id="score-txt" style="color:red; font-size:1.8rem">0</b>/10 câu</p>
         <div id="msg-txt" style="margin-bottom:20px;"></div>
-        <!-- Thêm ID cho canvas để xử lý fallback -->
         <canvas id="certCanvas"></canvas> 
         <img id="cert-final">
         <div style="margin-top:20px; display:flex; justify-content:center; gap:10px;">
@@ -401,7 +375,6 @@
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbyBXBPa-Y2lupBBN1EXrU-QgzYEQ1f-GMpFjxBjJx2eJqPU7LtCiRhy42V8XXI1rOMs/exec"; 
 
-        // DỮ LIỆU CÂU HỎI DỰ PHÒNG (ĐỂ VÀO THI NGAY KHÔNG CẦN ĐỢI)
         const fallbackQuestions = [
             { q: "Quần đảo Hoàng Sa thuộc tỉnh/thành phố nào của Việt Nam?", a: 0, opts: ["Đà Nẵng", "Khánh Hòa", "Quảng Ngãi", "Phú Yên"] },
             { q: "Quần đảo Trường Sa thuộc tỉnh/thành phố nào của Việt Nam?", a: 1, opts: ["Đà Nẵng", "Khánh Hòa", "Vũng Tàu", "Bình Thuận"] },
@@ -441,7 +414,6 @@
 
         function resetApp() { goHome(); }
 
-        // CẢI TIẾN HÀM PHÁT NHẠC
         function playMusicSafe() {
             audio.volume = 1.0;
             var promise = audio.play();
@@ -498,7 +470,7 @@
         }
         function findSmartAnswer(query) {
             const normalizedQuery = query.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-            if (normalizedQuery.includes("chao") || normalizedQuery == "hi") return { text: "Chào con! Cô là Bích. Con cần cô giúp gì không?" };
+            if (normalizedQuery.includes("chao") || normalizedQuery == "hi") return { text: "Chào em! Cô là Bích. Em cần cô giúp gì không?" };
             if (normalizedQuery.includes("cam on")) return { text: "Không có chi con nhé! Cố gắng học tốt nha." };
             let bestMatch = null, maxScore = 0;
             const sourceData = fullQuestionBank.length > 0 ? fullQuestionBank : (questions.length > 0 ? questions : fallbackQuestions);
@@ -511,23 +483,21 @@
             }
             if (bestMatch && maxScore >= 2) { 
                 const correctAns = bestMatch.opts[bestMatch.a];
-                let explanation = bestMatch.expl ? bestMatch.expl : "Kiến thức này rất quan trọng, con nhớ kỹ nhé.";
-                const praises = ["Câu hỏi rất hay!", "Mỗi câu con nhờ trợ giúp, hệ thống sẽ ghi nhớ tự động, con sẽ chỉ nhận được chứng nhận hoàn thành dù điểm cao!", "Cô rất khen ngợi tinh thần học tập của con!", "Câu hỏi rất thú vị!", "Đây là một câu hỏi hay về biển, đảo quê hương", "Cô sẽ hỗ trợ con câu hỏi này!", "Số lần trợ giúp trên 3 lần thì con sẽ chỉ được chứng nhận hoàn thành nhé!"];
+                let explanation = bestMatch.expl ? bestMatch.expl : "Kiến thức này rất quan trọng, em nhớ kỹ nhé.";
+                const praises = ["Câu hỏi rất hay!", "Mỗi câu em nhờ trợ giúp, hệ thống sẽ ghi nhớ tự động, em sẽ chỉ nhận được chứng nhận hoàn thành dù điểm cao!", "Cô rất khen ngợi tinh thần học tập của em!", "Câu hỏi rất thú vị!", "Đây là một câu hỏi hay về biển, đảo quê hương", "Cô sẽ hỗ trợ em câu hỏi này!", "Số lần trợ giúp trên 3 lần thì em sẽ chỉ được chứng nhận hoàn thành nhé!"];
                 const randomPraise = praises[Math.floor(Math.random() * praises.length)];
-                const html = `<b>Cô Bích:</b> ${randomPraise}<br><br>✅ <b>Đáp án:</b> <span style="color:#0091ea; font-weight:bold">${correctAns}</span><br><br>📖 <b>Kiến thức:</b> ${explanation}<br><br>"Cô sẽ luôn đồng hành hỗ trợ con, chúng ta với câu hỏi tiếp theo nào!" 💪`;
+                const html = `<b>Cô Bích:</b> ${randomPraise}<br><br>✅ <b>Đáp án:</b> <span style="color:#0091ea; font-weight:bold">${correctAns}</span><br><br>📖 <b>Kiến thức:</b> ${explanation}<br><br>"Cô sẽ luôn đồng hành hỗ trợ em, chúng ta đến với câu hỏi tiếp theo nào!" 💪`;
                 return { text: html };
             } else { 
-                return { text: "<b>Cô Bích:</b> Câu này cô chưa tìm thấy trong ngân hàng đề. Con thử kiểm tra lại chính tả xem sao nhé." }; 
+                return { text: "<b>Cô Bích:</b> Câu này cô chưa tìm thấy trong ngân hàng đề. Em thử kiểm tra lại chính tả xem sao nhé." }; 
             }
         }
 
         window.onload = async function() {
-            setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 1000); // GIẢM THỜI GIAN LOADER
-            // Tải font song song
+            setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 1000); 
             document.fonts.load('400 110px "Great Vibes"');
             document.fonts.load('700 60px "Oswald"');
             
-            // Tải dữ liệu API
             const data = await callAPI("getInitData");
             if (data) {
                 if (data.logo) document.getElementById('logo-img').src = data.logo;
@@ -558,18 +528,22 @@
         function startExam(trial) {
             if (!trial) {
                 const name = document.getElementById('u-name').value;
+                const userClass = document.getElementById('u-class').value; // LẤY LỚP
                 const school = document.getElementById('u-school').value;
                 const city = document.getElementById('u-city').value;
-                if (!name || !school || !city) return alert("Vui lòng điền đủ thông tin");
+                
+                // KIỂM TRA NHẬP LIỆU
+                if (!name || !userClass || !school || !city) return alert("Vui lòng điền đủ: Họ tên, Lớp, Trường, Tỉnh/TP");
+                
                 let formattedName = name.toLowerCase().split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                userInfo = { name: formattedName, school, city };
+                
+                // LƯU THÔNG TIN
+                userInfo = { name: formattedName, school, city, userClass };
             }
             
-            // ƯU TIÊN SỬ DỤNG NGÂN HÀNG CÂU HỎI ĐÃ TẢI, NẾU CHƯA CÓ THÌ DÙNG DỰ PHÒNG
             if (fullQuestionBank.length > 0) {
                 questions = fullQuestionBank.sort(() => 0.5 - Math.random()).slice(0, 10);
             } else if (questions.length === 0) {
-                // SỬ DỤNG CÂU HỎI DỰ PHÒNG ĐỂ NGƯỜI DÙNG KHÔNG PHẢI ĐỢI
                 questions = fallbackQuestions.sort(() => 0.5 - Math.random()).slice(0, 10);
             }
             
@@ -641,7 +615,43 @@
             }
         }
 
-        // --- HÀM VẼ CHỨNG NHẬN ĐÃ ĐỔI MÀU CHỮ ---
+        // --- HÀM CHUẨN HÓA DỮ LIỆU ĐỂ IN CHỨNG NHẬN ---
+        function chuanHoaDuLieu(inputClass, inputSchool, inputProvince) {
+            // A. XỬ LÝ LỚP
+            let classNum = parseInt(inputClass.match(/\d+/) ? inputClass.match(/\d+/)[0] : "0");
+            let classChar = inputClass.replace(/[^a-zA-Z]/g, "").toUpperCase(); 
+            let finalClass = `Lớp ${classNum}${classChar}`;
+
+            // B. XỬ LÝ TRƯỜNG
+            let schoolPrefix = "Trường";
+            if (classNum >= 1 && classNum <= 5) schoolPrefix = "Trường Tiểu học";
+            else if (classNum >= 6 && classNum <= 9) schoolPrefix = "Trường THCS";
+            else if (classNum >= 10 && classNum <= 12) schoolPrefix = "Trường THPT";
+
+            let cleanSchool = inputSchool.toLowerCase();
+            const removeWords = ["trường", "tiểu học", "thcs", "thpt", "th ", "cấp 1", "cấp 2", "cấp 3"];
+            removeWords.forEach(word => {
+                let re = new RegExp(`\\b${word}\\b`, 'gi'); 
+                cleanSchool = cleanSchool.replace(re, "");
+            });
+            cleanSchool = cleanSchool.trim().replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+            cleanSchool = cleanSchool.replace(/\s+/g, ' '); 
+            let finalSchool = `${schoolPrefix} ${cleanSchool}`;
+
+            // C. XỬ LÝ TỈNH/THÀNH
+            let cleanProv = inputProvince.toLowerCase().trim();
+            const mapAbbr = { "tphcm": "hồ chí minh", "hcm": "hồ chí minh", "hn": "hà nội", "hp": "hải phòng", "đn": "đà nẵng" };
+            if (mapAbbr[cleanProv]) cleanProv = mapAbbr[cleanProv];
+            cleanProv = cleanProv.replace(/^(tỉnh|thành phố|tp)\s+/, "");
+
+            const centralCities = ["hà nội", "hồ chí minh", "hải phòng", "đà nẵng", "cần thơ"];
+            let provPrefix = centralCities.includes(cleanProv) ? "Thành phố" : "Tỉnh";
+            cleanProv = cleanProv.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+            let finalProv = `${provPrefix} ${cleanProv}`;
+
+            return `${finalClass} – ${finalSchool} – ${finalProv}`;
+        }
+
         function drawCert(rank) {
             const certUrl = "https://lh3.googleusercontent.com/d/1HCIrAhA-wIkLi-JeMf7LcITm32RRVjQF";
             const canvas = document.getElementById('certCanvas');
@@ -660,42 +670,40 @@
                 try { await document.fonts.load('400 100px "Great Vibes"', userInfo.name); } catch(e) {}
                 ctx.textAlign = 'center';
                 
-                // TÊN HỌC SINH (GIỮ MÀU ĐỎ NHƯ CŨ)
+                // TÊN HỌC SINH
                 ctx.font = "400 100px 'Great Vibes'"; 
                 ctx.fillStyle = '#d32f2f'; // ĐỎ
                 ctx.fillText(userInfo.name, w / 2, h * 0.42);
 
-                // KẺ CHÂN + CHẤM TRÒN
                 const textWidth = ctx.measureText(userInfo.name).width;
                 ctx.beginPath();
                 ctx.moveTo(w/2 - textWidth/2 - 20, h * 0.43 + 20);
                 ctx.lineTo(w/2 + textWidth/2 + 20, h * 0.43 + 20);
-                ctx.lineWidth = 3;
-                ctx.strokeStyle = '#333';
-                ctx.stroke();
+                ctx.lineWidth = 3; ctx.strokeStyle = '#333'; ctx.stroke();
                 ctx.beginPath(); ctx.arc(w/2 - textWidth/2 - 20, h * 0.43 + 20, 5, 0, Math.PI*2); ctx.fill();
                 ctx.beginPath(); ctx.arc(w/2 + textWidth/2 + 20, h * 0.43 + 20, 5, 0, Math.PI*2); ctx.fill();
 
-                // TRƯỜNG LỚP (ĐỔI SANG MÀU XANH #002855)
-                try { await document.fonts.load('700 40px "Roboto"'); } catch(e) {}
-                ctx.font = "700 40px 'Roboto'"; 
-                ctx.fillStyle = '#002855'; // XANH ĐẬM
-                ctx.fillText(`${userInfo.school} - ${userInfo.city}`, w / 2, h * 0.50);
+                // TRƯỜNG LỚP (SỬ DỤNG HÀM CHUẨN HÓA MỚI)
+                try { await document.fonts.load('700 35px "Roboto"'); } catch(e) {}
+                ctx.font = "700 35px 'Roboto'"; 
+                ctx.fillStyle = '#002855'; 
                 
-                // NỘI DUNG CHỨNG NHẬN (ĐỔI SANG MÀU XANH #002855)
+                // GỌI HÀM CHUẨN HÓA Ở ĐÂY
+                const fullInfoStr = chuanHoaDuLieu(userInfo.userClass, userInfo.school, userInfo.city);
+                ctx.fillText(fullInfoStr, w / 2, h * 0.50);
+                
+                // NỘI DUNG CHỨNG NHẬN
                 ctx.font = "400 35px 'Roboto'";
                 const resultText = `Đã hoàn thành ${rank === "XUẤT SẮC" ? "xuất sắc" : ""} cuộc thi trực tuyến "Em yêu biển, đảo quê hương"`;
-                ctx.fillStyle = '#002855'; // XANH ĐẬM
+                ctx.fillStyle = '#002855'; 
                 ctx.fillText(resultText, w / 2, h * 0.55);
                 ctx.fillText("do Đoàn thanh niên cộng sản Hồ Chí Minh, Hành trình số Việt Nam My Love phối hợp tổ chức", w / 2, h * 0.59);
 
-                // XỬ LÝ XUẤT ẢNH
                 try {
                     const url = canvas.toDataURL("image/png");
                     const finalImg = document.getElementById('cert-final');
                     finalImg.src = url;
                     finalImg.style.display = 'block';
-                    
                     const btn = document.getElementById('down-btn'); 
                     btn.href = url; 
                     btn.download = `ChungNhan_${userInfo.name.replace(/\s+/g, '_')}.png`; 
@@ -705,10 +713,7 @@
                     document.getElementById('msg-txt').innerHTML += "<br><span style='color:#e65100; font-size:0.9rem'>Lưu ý: Vui lòng Chụp màn hình để lưu chứng nhận.</span>";
                 }
             };
-
-            img.onerror = () => {
-                alert("Không thể tải khung chứng nhận.");
-            };
+            img.onerror = () => { alert("Không thể tải khung chứng nhận."); };
         }
     </script>
 </body>
