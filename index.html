@@ -310,21 +310,26 @@
         </div>
     </div>
     
-    <!-- KHUNG ĐĂNG KÝ ĐÃ ĐƯỢC CẬP NHẬT: TRƯỜNG TRÊN XÃ DƯỚI -->
+    <!-- KHUNG ĐĂNG KÝ ĐÃ CẬP NHẬT: DÙNG DROPDOWN TỈNH, TRƯỜNG LÊN TRÊN -->
     <div id="reg-overlay" class="overlay">
         <div class="popup">
             <span class="close-btn" onclick="this.parentElement.parentElement.style.display='none'">&times;</span>
             <h2 style="color:#002855; text-align:center; margin-bottom:25px;">ĐĂNG KÝ DỰ THI</h2>
+            
             <input type="text" id="u-name" class="form-control" placeholder="Họ và Tên">
             <input type="text" id="u-class" class="form-control" placeholder="Lớp (Ví dụ: 8A, 5B...)">
             
-            <!-- ĐÃ ĐẢO: TRƯỜNG LÊN TRƯỚC -->
+            <!-- TRƯỜNG LÊN TRƯỚC -->
             <input type="text" id="u-school" class="form-control" placeholder="Trường / Đơn vị">
             
-            <!-- XÃ/PHƯỜNG XUỐNG DƯỚI -->
+            <!-- XÃ PHƯỜNG -->
             <input type="text" id="u-ward" class="form-control" placeholder="Xã / Phường">
             
-            <input type="text" id="u-city" class="form-control" placeholder="Tỉnh / Thành phố">
+            <!-- DROPDOWN TỈNH THÀNH -->
+            <select id="u-city" class="form-control" style="background-color: #fff;">
+                <option value="" disabled selected>-- Chọn Tỉnh / Thành phố --</option>
+            </select>
+
             <button class="btn-full" onclick="startExam(false)">VÀO THI NGAY</button>
         </div>
     </div>
@@ -371,17 +376,27 @@
     </footer>
 
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbxQNTnc3YL4qoafoALmsqaewS82e0RIrx5-svUcTwXRpg99Ud9QuH_wvAvXAwPN4_Yk/exec"; 
+        const API_URL = "https://script.google.com/macros/s/AKfycbxi-E9yqGfEKIuXTguHY-Th7ajttPkgCKPklJRxu4lRBW6iTcA8_Pt0Rj-ySxpskNlV/exec"; 
         const CERT_BG_URL = "https://lh3.googleusercontent.com/d/1HCIrAhA-wIkLi-JeMf7LcITm32RRVjQF";
         const preloadedCert = new Image();
         preloadedCert.crossOrigin = "Anonymous";
+
+        // DANH SÁCH 34 TỈNH THÀNH (Bạn có thể xóa bớt dòng nếu muốn chỉ giữ 34 tỉnh)
+        const LIST_PROVINCES = [
+            "Thành phố Hà Nội", "Thành phố Hồ Chí Minh", "Thành phố Hải Phòng", "Thành phố Đà Nẵng", "Thành phố Cần Thơ",
+            "Tỉnh Hà Giang", "Tỉnh Cao Bằng", "Tỉnh Lai Châu", "Tỉnh Lào Cai", "Tỉnh Tuyên Quang", "Tỉnh Lạng Sơn", "Tỉnh Thái Nguyên", "Tỉnh Sơn La", "Tỉnh Phú Thọ", "Tỉnh Quảng Ninh", "Tỉnh Bắc Ninh",
+            "Tỉnh Hưng Yên", "Tỉnh Ninh Bình", "Tỉnh Thanh Hóa", "Tỉnh Nghệ An", "Tỉnh Hà Tĩnh", "Tỉnh Quảng Trị", "Tỉnh Thừa Thiên Huế",
+            "Tỉnh Quảng Ngãi", "Tỉnh Khánh Hòa", "Tỉnh Gia Lai", "Tỉnh Đắk Lắk",
+            "Tỉnh Tây Ninh", "Tỉnh Đồng Nai", "Tỉnh Đồng Tháp", "Tỉnh An Giang",
+            "Tỉnh Cà Mau", "Tỉnh Điện Biên", "Tỉnh Vĩnh Long", "Tỉnh Lâm Đồng"
+        ];
 
         const fallbackQuestions = [];
 
         let questions = [], fullQuestionBank = [];
         let curIdx = 0, score = 0, userAns = null, userInfo = {}, isTrial = false;
         let chatCount = 0;
-        let startTime = 0; // BIẾN MỚI: ĐỂ TÍNH GIỜ
+        let startTime = 0;
         const audio = document.getElementById("bg-audio");
         let musicStarted = false;
 
@@ -443,6 +458,18 @@
 
         window.onload = function() {
             preloadedCert.src = CERT_BG_URL;
+
+            // ĐIỀN DANH SÁCH TỈNH VÀO DROPDOWN
+            const citySelect = document.getElementById('u-city');
+            // Sắp xếp danh sách tỉnh theo ABC
+            LIST_PROVINCES.sort((a, b) => a.localeCompare(b));
+            
+            LIST_PROVINCES.forEach(city => {
+                let opt = document.createElement('option');
+                opt.value = city; 
+                opt.innerText = city; 
+                citySelect.appendChild(opt);
+            });
 
             setTimeout(() => { 
                 document.getElementById('loader').style.opacity = '0';
@@ -515,8 +542,6 @@
             const safeCities = Array.isArray(d.top_cities) ? d.top_cities : [];
             const safeSchools = Array.isArray(d.top_schools) ? d.top_schools : [];
             const safeStudents = Array.isArray(d.top_students) ? d.top_students : [];
-
-            // Backend đã sắp xếp sẵn theo điểm và thời gian, frontend chỉ việc hiển thị
             const topStudents = safeStudents; 
 
             const fill = (id, arr, type) => { 
@@ -561,16 +586,6 @@
             clean = clean.replace(/\s+/g, ' '); 
             return `${prefix} ${clean}`;
         }
-        function cleanCity(str) {
-            let clean = str.toLowerCase().trim();
-            const mapAbbr = { "tphcm": "hồ chí minh", "hcm": "hồ chí minh", "hn": "hà nội", "hp": "hải phòng", "đn": "đà nẵng" };
-            if (mapAbbr[clean]) clean = mapAbbr[clean];
-            clean = clean.replace(/^(tỉnh|thành phố|tp)\s+/, "");
-            const centralCities = ["hà nội", "hồ chí minh", "hải phòng", "đà nẵng", "cần thơ"];
-            let prefix = centralCities.includes(clean) ? "Thành phố" : "Tỉnh";
-            clean = clean.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
-            return `${prefix} ${clean}`;
-        }
 
         function startExam(trial) {
             if (!trial) {
@@ -578,10 +593,11 @@
                 const classIn = document.getElementById('u-class').value;
                 const wardIn = document.getElementById('u-ward').value; 
                 const schoolIn = document.getElementById('u-school').value;
+                // LẤY GIÁ TRỊ TỪ SELECT
                 const cityIn = document.getElementById('u-city').value;
                 
                 if (!nameIn || !classIn || !wardIn || !schoolIn || !cityIn) {
-                    alert("Vui lòng điền đủ: Họ tên, Lớp, Trường, Xã/Phường, Tỉnh/TP");
+                    alert("Vui lòng điền đủ: Họ tên, Lớp, Trường, Xã/Phường và CHỌN Tỉnh/TP");
                     return;
                 }
                 
@@ -590,7 +606,7 @@
                     userClass: cleanClass(classIn),
                     ward: cleanWard(wardIn), 
                     school: cleanSchool(schoolIn, classIn), 
-                    city: cleanCity(cityIn)
+                    city: cityIn // ĐÃ LÀ GIÁ TRỊ CHUẨN TỪ DROPDOWN
                 };
             }
             
@@ -601,8 +617,6 @@
             }
             
             isTrial = trial; score = 0; curIdx = 0; chatCount = 0;
-            
-            // BẮT ĐẦU TÍNH GIỜ
             startTime = new Date().getTime(); 
 
             document.getElementById('landing-page').style.display = 'none';
@@ -640,9 +654,8 @@
                 document.getElementById('chatbot-widget').style.display = 'none'; 
                 document.getElementById('loader').style.display = 'flex';
                 
-                // TÍNH THỜI GIAN LÀM BÀI ĐỂ GỬI LÊN SERVER (TIE-BREAKER)
                 var endTime = new Date().getTime();
-                var duration = Math.floor((endTime - startTime) / 1000); // Đơn vị giây
+                var duration = Math.floor((endTime - startTime) / 1000); 
 
                 if (!isTrial) await callAPI("submit", { ...userInfo, score: score, duration: duration });
                 
