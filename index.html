@@ -376,7 +376,7 @@
     </footer>
 
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbxi-E9yqGfEKIuXTguHY-Th7ajttPkgCKPklJRxu4lRBW6iTcA8_Pt0Rj-ySxpskNlV/exec"; 
+        const API_URL = "https://script.google.com/macros/s/AKfycbx7pRaOlXlg_chfAwB7E1tTjA9ZSCInVi0uhHHat0-U655aFXYs9ZXdWCoUsk3pKb_2/exec"; 
         const CERT_BG_URL = "https://lh3.googleusercontent.com/d/1HCIrAhA-wIkLi-JeMf7LcITm32RRVjQF";
         const preloadedCert = new Image();
         preloadedCert.crossOrigin = "Anonymous";
@@ -564,13 +564,20 @@
 
         function cleanName(str) { return str.toLowerCase().split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '); }
         function cleanClass(str) {
-            let numMatch = str.match(/\d+/);
-            let num = numMatch ? parseInt(numMatch[0]) : 0; 
-            let char = str.replace(/[^a-zA-Z]/g, "").toUpperCase(); 
-            if (num === 0 && char === "") return "Lớp Không rõ"; 
-            if (num === 0) return `Lớp ${char}`; 
-            if (char === "") return `Lớp ${num}`; 
-            return `Lớp ${num}${char}`; 
+            // 1. Nếu người dùng nhập chữ "Lớp" hoặc "Lop" ở đầu thì xóa đi để xử lý cho chuẩn
+            // (Regex này xóa chữ lớp không phân biệt hoa thường và khoảng trắng theo sau)
+            let s = str.replace(/^(lớp|lop|class)\s*/gi, "");
+
+            // 2. Chuyển toàn bộ thành IN HOA
+            s = s.toUpperCase();
+
+            // 3. Loại bỏ các ký tự đặc biệt (dấu chấm, phẩy, khoảng trắng giữa các chữ)
+            // Lệnh này giữ lại: Số (0-9) và Chữ (A-Z). 
+            // Ví dụ: "3 a 1" -> "3A1", "12a.5" -> "12A5"
+            s = s.replace(/[^A-Z0-9]/g, "");
+
+            // 4. Trả về kết quả có thêm chữ "Lớp " phía trước
+            return "Lớp " + s;
         }
         function cleanWard(str) { return str.trim().replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); }).replace(/\s+/g, ' '); }
         function cleanSchool(str, clsStr) {
